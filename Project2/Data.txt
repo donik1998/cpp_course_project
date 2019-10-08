@@ -1,8 +1,0 @@
-Mon Oct  7 23:36:40 2019
-Guest 5 5 is registered to room number 1
-Identification number: 12223
-Mon Oct  7 23:48:14 2019
-Guest 2 2 is registered to room number 12
-Identification number: 22
-Mon Oct  7 23:48:14 2019
-Bill is created and guset moved out from 12

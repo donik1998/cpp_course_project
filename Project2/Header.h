@@ -6,11 +6,23 @@ using namespace std;
 string furniture_name[4] = { "Comode", "Wardrobe", "Armchair", "Mini-bar" };
 string equipment_name[4] = { "TV", "Fridge", "Air conditioner", "Laptop" };
 string services_name[7] = { "Morning meal", "Laundry", "Additional cleaning", "Gym", "Guide", "Transport renting", "Taxi from airport to hotel" };
-float eq_rent_price[4] = { 15.59, 10.25, 20.85, 45.0 }, fur_rent_price[4] = { 9.85, 16.60, 12.20, 45.50 }, serv_price[7] = { 13.45, 14.50, 11.5, 21.5, 35.50, 49.99, 15.85 };
+float eq_rent_price[4] = { 15.59, 10.25, 20.85, 45.0 };
+float fur_rent_price[4] = { 9.85, 16.60, 12.20, 45.50 };
+float serv_price[7] = { 13.45, 14.50, 11.5, 21.5, 35.50, 49.99, 15.85 };
 class Guest{
 private:
 	string guest_name, guest_identification_number;
+	int daysStayed = 0;
 public:
+	void set_days_stayed(int days) {
+		daysStayed = days;
+	}
+	int get_days_stayed() {
+		return daysStayed;
+	}
+	void addDaysStayed(int add_days) {
+		daysStayed += add_days;
+	}
 	void set_guest_name(string name){
 		guest_name = name;
 	}
@@ -101,7 +113,7 @@ public:
 			service_status[i] = false;
 		}
 	}
-	void set_service_price(string name, float price){
+	/*void set_service_price(string name, float price){
 		for (int i = 0; i < 7; i++){
 			if (services[i] == name){
 				serv_price[i] = price;
@@ -109,7 +121,7 @@ public:
 			}
 			else{ continue; }
 		}
-	}
+	}*/
 	float get_service_price(string name){
 		for (int i = 0; i < 7; i++){
 			if (services[i] == name && service_status[i] == true){
@@ -185,7 +197,7 @@ public:
 		return room_price;
 	}
 };
-ofstream outfile;
+ofstream loging, receipt;
 time_t rawtime;
 struct tm *timeinfo;
 void show_advanced_avalability(Rooms r[50]){
@@ -284,30 +296,30 @@ void add_furniture(Rooms r[50], string id){
 				switch (furnutire_choice){
 				case(1) : {
 							  r[i].add_furniture(furniture_name[furnutire_choice - 1]);
-							  outfile.open("Data.txt", ios::app);
-							  outfile << furniture_name[furnutire_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  outfile.close();
+							  loging.open("Data.txt", ios::app);
+							  loging << furniture_name[furnutire_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+							  loging.close();
 							  break;
 				}
 				case(2) : {
 							  r[i].add_furniture(furniture_name[furnutire_choice - 1]);
-							  outfile.open("Data.txt", ios::app);
-							  outfile << furniture_name[furnutire_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  outfile.close();
+							  loging.open("Data.txt", ios::app);
+							  loging << furniture_name[furnutire_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+							  loging.close();
 							  break;
 				}
 				case(3) : {
 							  r[i].add_furniture(furniture_name[furnutire_choice - 1]);
-							  outfile.open("Data.txt", ios::app);
-							  outfile << furniture_name[furnutire_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  outfile.close();
+							  loging.open("Data.txt", ios::app);
+							  loging << furniture_name[furnutire_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+							  loging.close();
 							  break;
 				}
 				case(4) : {
 							  r[i].add_furniture(furniture_name[furnutire_choice - 1]);
-							  outfile.open("Data.txt", ios::app);
-							  outfile << furniture_name[furnutire_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  outfile.close();
+							  loging.open("Data.txt", ios::app);
+							  loging << furniture_name[furnutire_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+							  loging.close();
 							  break;
 				}
 				}
@@ -343,30 +355,30 @@ void add_equipment(Rooms r[50], string id){
 				switch (equipment_choice){
 				case(1) : {
 							  r[i].add_equipment(equipment_name[equipment_choice - 1]);
-							  outfile.open("Data.txt", ios::app);
-							  outfile << equipment_name[equipment_choice- 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  outfile.close();
+							  loging.open("Data.txt", ios::app);
+							  loging << equipment_name[equipment_choice- 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+							  loging.close();
 							  break;
 				}
 				case(2) : {
 							  r[i].add_equipment(equipment_name[equipment_choice - 1]);
-							  outfile.open("Data.txt", ios::app);
-							  outfile << equipment_name[equipment_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  outfile.close();
+							  loging.open("Data.txt", ios::app);
+							  loging << equipment_name[equipment_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+							  loging.close();
 							  break;
 				}
 				case(3) : {
 							  r[i].add_equipment(equipment_name[equipment_choice - 1]);
-							  outfile.open("Data.txt", ios::app);
-							  outfile << equipment_name[equipment_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  outfile.close();
+							  loging.open("Data.txt", ios::app);
+							  loging << equipment_name[equipment_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+							  loging.close();
 							  break;
 				}
 				case(4) : {
 							  r[i].add_equipment(equipment_name[equipment_choice - 1]);
-							  outfile.open("Data.txt", ios::app);
-							  outfile << equipment_name[equipment_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  outfile.close();
+							  loging.open("Data.txt", ios::app);
+							  loging << equipment_name[equipment_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+							  loging.close();
 							  break;
 				}
 				}
@@ -386,7 +398,7 @@ void add_equipment(Rooms r[50], string id){
 }
 void add_services(Rooms r[50], string id){
 	int counter = 1, feature_choice = 1;
-	bool found;
+	bool found = true;
 	for (int i = 0; i < 50; i++){
 		if (r[i].get_guest_identification() == id && r[i].get_availability() == false){
 			found = true;
@@ -403,51 +415,51 @@ void add_services(Rooms r[50], string id){
 				switch (feature_choice){
 				case(1) : {
 							  r[i].add_service(services_name[feature_choice - 1]);
-							  outfile.open("Data.txt", ios::app);
-							  outfile << services_name[feature_choice- 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  outfile.close();
+							  loging.open("Data.txt", ios::app);
+							  loging << services_name[feature_choice- 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+							  loging.close();
 							  break;
 				}
 				case(2) : {
 							  r[i].add_service(services_name[feature_choice - 1]);
-							  outfile.open("Data.txt", ios::app);
-							  outfile << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  outfile.close();
+							  loging.open("Data.txt", ios::app);
+							  loging << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+							  loging.close();
 							  break;
 				}
 				case(3) : {
 							  r[i].add_service(services_name[feature_choice - 1]);
-							  outfile.open("Data.txt", ios::app);
-							  outfile << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  outfile.close();
+							  loging.open("Data.txt", ios::app);
+							  loging << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+							  loging.close();
 							  break;
 				}
 				case(4) : {
 							  r[i].add_service(services_name[feature_choice - 1]);
-							  outfile.open("Data.txt", ios::app);
-							  outfile << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  outfile.close();
+							  loging.open("Data.txt", ios::app);
+							  loging << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+							  loging.close();
 							  break;
 				}
 				case(5) : {
 							  r[i].add_service(services_name[feature_choice - 1]);
-							  outfile.open("Data.txt", ios::app);
-							  outfile << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  outfile.close();
+							  loging.open("Data.txt", ios::app);
+							  loging << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+							  loging.close();
 							  break;
 				}
 				case(6) : {
 							  r[i].add_service(services_name[feature_choice - 1]);
-							  outfile.open("Data.txt", ios::app);
-							  outfile << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  outfile.close();
+							  loging.open("Data.txt", ios::app);
+							  loging << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+							  loging.close();
 							  break;
 				}
 				case(7) : {
 							  r[i].add_service(services_name[feature_choice - 1]);
-							  outfile.open("Data.txt", ios::app);
-							  outfile << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  outfile.close();
+							  loging.open("Data.txt", ios::app);
+							  loging << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+							  loging.close();
 							  break;
 				}
 				}
@@ -460,7 +472,7 @@ void add_services(Rooms r[50], string id){
 			cout << "You are not registered" << endl;
 		}
 	}
-	if (found == false){
+	if (found == false) {
 		cout << "Not found" << endl;
 	}
 }
@@ -479,24 +491,24 @@ void add_features(Rooms r[50], string id){
 				}
 				switch (choice){
 				case(1) : {
-							  outfile.open("Data.txt", ios::app);
-							  outfile << ctime(&rawtime);
+							  loging.open("Data.txt", ios::app);
+							  loging << ctime(&rawtime);
 							  add_furniture(r, id);
-							  outfile.close();
+							  loging.close();
 							  break;
 				}
 				case(2) : {
-							  outfile.open("Data.txt", ios::app);
-							  outfile << ctime(&rawtime);
+							  loging.open("Data.txt", ios::app);
+							  loging << ctime(&rawtime);
 							  add_equipment(r, id);
-							  outfile.close();
+							  loging.close();
 							  break;
 				}
 				case(3) : {
-							  outfile.open("Data.txt", ios::app);
-							  outfile << ctime(&rawtime);
+							  loging.open("Data.txt", ios::app);
+							  loging << ctime(&rawtime);
 							  add_services(r, id);
-							  outfile.close();
+							  loging.close();
 							  break;
 				}
 				}
@@ -513,5 +525,22 @@ void add_features(Rooms r[50], string id){
 	}
 	if (found == false){
 		cout << "Not found" << endl;
+	}
+}
+void bill(Rooms r[50], string id) {
+	float total = 0;
+	for (int i = 0; i < 50; i++) {
+		if (r[i].get_availability() == false && r[i].get_guest_identification() == id) {
+			cout << "Alright! " << r[i].get_guest_name() << endl;
+			cout << "You have lived in " << r[i].get_room_type() << " number " << r[i].get_room_number() << " on " << r[i].get_roomlvl() << " for " << r[i].get_days_stayed() << " days" << endl;
+			cout << "It costs " << r[i].get_room_price() << "$ per day. So you have to pay " << r[i].get_days_stayed()*r[i].get_room_price() << "$ for room rent" << endl;
+			total += (r[i].get_days_stayed()*r[i].get_room_price());
+			receipt << "Room for " << r[i].get_days_stayed() << total << endl;
+			for (int j = 0; j < 4; j++) {
+				if (r[i].get_furniture_status(furniture_name[j]) == true) {
+					cout << "You also rented " << furniture_name[j] << " for " << fur_rent_price[j] << "$" << endl;
+				}
+			}
+		}
 	}
 }

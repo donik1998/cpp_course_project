@@ -1,6 +1,12 @@
 ﻿  Source.cpp
 c:\users\doniyor\documents\github\cpp_course_project\project2\header.h(9): warning C4305: инициализация: усечение из "double" в "float"
-c:\users\doniyor\documents\github\cpp_course_project\project2\header.h(138): warning C4715: Additional_Services::get_service_status: значение возвращается не при всех путях выполнения
-c:\users\doniyor\documents\github\cpp_course_project\project2\header.h(64): warning C4715: Conveniences::get_furniture_status: значение возвращается не при всех путях выполнения
-c:\users\doniyor\documents\github\cpp_course_project\project2\header.h(85): warning C4715: Conveniences::get_equipment_status: значение возвращается не при всех путях выполнения
+c:\users\doniyor\documents\github\cpp_course_project\project2\header.h(10): warning C4305: инициализация: усечение из "double" в "float"
+c:\users\doniyor\documents\github\cpp_course_project\project2\header.h(11): warning C4305: инициализация: усечение из "double" в "float"
+c:\users\doniyor\documents\github\cpp_course_project\project2\source.cpp(19): warning C4101: adv_lux_numofguest: неиспользованная локальная переменная
+c:\users\doniyor\documents\github\cpp_course_project\project2\source.cpp(19): warning C4101: rent_days: неиспользованная локальная переменная
+c:\users\doniyor\documents\github\cpp_course_project\project2\source.cpp(19): warning C4101: adv_numofguest: неиспользованная локальная переменная
+c:\users\doniyor\documents\github\cpp_course_project\project2\source.cpp(19): warning C4101: lux_numofguest: неиспользованная локальная переменная
+c:\users\doniyor\documents\github\cpp_course_project\project2\source.cpp(19): warning C4101: ord_numofguest: неиспользованная локальная переменная
+c:\users\doniyor\documents\github\cpp_course_project\project2\source.cpp(20): warning C4101: accepted: неиспользованная локальная переменная
+c:\users\doniyor\documents\github\cpp_course_project\project2\header.h(76): warning C4715: Conveniences::get_furniture_status: значение возвращается не при всех путях выполнения
   Project2.vcxproj -> C:\Users\Doniyor\Documents\GitHub\cpp_course_project\Debug\Project2.exe
