@@ -2,6 +2,7 @@
 #include<string>
 #include<ctime>
 #include<fstream>
+#include<process.h>
 using namespace std;
 string furniture_name[4] = { "Comode", "Wardrobe", "Armchair", "Mini-bar" };
 string equipment_name[4] = { "TV", "Fridge", "Air conditioner", "Laptop" };
@@ -528,19 +529,42 @@ void add_features(Rooms r[50], string id){
 	}
 }
 void bill(Rooms r[50], string id) {
-	float total = 0;
+	float total = 0; string tempName;
+	receipt << "\t\t\tPayment details\n";
 	for (int i = 0; i < 50; i++) {
-		if (r[i].get_availability() == false && r[i].get_guest_identification() == id) {
-			cout << "Alright! " << r[i].get_guest_name() << endl;
-			cout << "You have lived in " << r[i].get_room_type() << " number " << r[i].get_room_number() << " on " << r[i].get_roomlvl() << " for " << r[i].get_days_stayed() << " days" << endl;
-			cout << "It costs " << r[i].get_room_price() << "$ per day. So you have to pay " << r[i].get_days_stayed()*r[i].get_room_price() << "$ for room rent" << endl;
-			total += (r[i].get_days_stayed()*r[i].get_room_price());
-			receipt << "Room for " << r[i].get_days_stayed() << total << endl;
-			for (int j = 0; j < 4; j++) {
-				if (r[i].get_furniture_status(furniture_name[j]) == true) {
-					cout << "You also rented " << furniture_name[j] << " for " << fur_rent_price[j] << "$" << endl;
+		if (receipt.is_open() == true) {
+			if (r[i].get_availability() == false && r[i].get_guest_identification() == id) {
+				cout << "Alright! " << r[i].get_guest_name() << endl;
+				tempName = r[i].get_guest_name();
+				cout << "You have lived in " << r[i].get_room_type() << " number " << r[i].get_room_number() << " on " << r[i].get_roomlvl() << " for " << r[i].get_days_stayed() << " days" << endl;
+				cout << "It costs " << r[i].get_room_price() << "$ per day. So you have to pay " << r[i].get_days_stayed()*r[i].get_room_price() << "$ for room rent" << endl;
+				total += (r[i].get_days_stayed()*r[i].get_room_price());
+				receipt << "Room for " << r[i].get_days_stayed() << " days....." << total << "$" << endl;
+				for (int j = 0; j < 4; j++) {
+					if (r[i].get_furniture_status(furniture_name[j]) == true) {
+						cout << "You also rented " << furniture_name[j] << " for " << fur_rent_price[j] << "$" << endl;
+						receipt << furniture_name[j] << " " << fur_rent_price[j] << "$" << endl;
+						total += fur_rent_price[j];
+					}
+					if (r[i].get_equipment_status(equipment_name[j]) == true) {
+						cout << "You also rented" << equipment_name[j] << " for " << eq_rent_price[j] << "$" << endl;
+						receipt << equipment_name[j] << " " << eq_rent_price[j] << "$" << endl;
+						total += eq_rent_price[j];
+					}
+				}
+				for (int k = 0; k < 7; k++) {
+					if (r[i].get_service_status(services_name[k]) == true) {
+						cout << "You also rent " << services_name[k] << " for " << serv_price[k] << endl;
+						receipt << services_name[k] << " " << serv_price[k] << "$" << endl;
+						total += serv_price[k];
+					}
 				}
 			}
+		}else {
+			cout << "File is closed!!!" << endl;
 		}
 	}
+	receipt << "Name: " << tempName << endl;
+	receipt << "Amount: " << total << "$" << endl;
+	receipt << "**********Thank you for choosing us**********" << endl;
 }

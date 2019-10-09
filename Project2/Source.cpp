@@ -3,15 +3,17 @@
 #include"Header.h"
 #include<fstream>
 #include<ctime>
-
+/*known bugs: 
+see current bill*/
+/*stuff to do
+add initializing from file*/
 using namespace std;
 Rooms rooms[50];
 int main() {
 	initialize(rooms);
 	time(&rawtime);
-	loging.open("Data.txt", ios::ate);
-	receipt.open("Receipt.txt", ios::trunc|ios::out);
-	int addDays, main_menu_choice = 1, guestChoice = 1, room_choice = 1, ord_numofguest, rent_days, adv_numofguest, lux_numofguest, adv_lux_numofguest, info_choice = 1;
+	bool ordinalPricePrint = false, advPricePrint = false, luxPricePrint = false, advLuxPricePrint = false;
+	int addDays, main_menu_choice = 1, guestChoice = 1, room_choice = 1, numofguest, stayDays;
 	char accepted;
 	string id, first_name, last_name, full_name;
 	while (main_menu_choice != 0) {
@@ -19,13 +21,97 @@ int main() {
 		cout << "\nYour choice: "; cin >> main_menu_choice;
 		switch (main_menu_choice) {
 		case(1): {system("cls");
+			cout << "OK! Type the number of guests: "; cin >> numofguest;
+			for (int i = 0; i < 50; i++) {
+				if (rooms[i].get_capacity() >= numofguest && rooms[i].get_room_type() == "Ordinal" && rooms[i].get_availability() == true && ordinalPricePrint == false) {
+					ordinalPricePrint = true;
+					cout << "1. We can offer you Ordinal room" << endl;
+				}
+				if (rooms[i].get_capacity() >= numofguest && rooms[i].get_room_type() == "Advanced" && rooms[i].get_availability() == true && advPricePrint == false) {
+					advPricePrint = true;
+					cout << "2. We can offer you Advanced room" << endl;
+				}
+				if (rooms[i].get_capacity() >= numofguest && rooms[i].get_room_type() == "Lux" && rooms[i].get_availability() == true && luxPricePrint == false) {
+					luxPricePrint = true;
+					cout << "3. We can offer you Lux room" << endl;
+				}
+				if (rooms[i].get_capacity() >= numofguest && rooms[i].get_room_type() == "Advanced lux" && rooms[i].get_availability() == true && advLuxPricePrint == false) {
+					advLuxPricePrint = true;
+					cout << "4. We can offer you Advanced lux room" << endl;
+				}
+			}
+			cout << "Which one will you choose?\nYour choice: "; cin >> room_choice;
+			switch (room_choice) {
+			case(1): {
+				show_ordinal_availability(rooms);
+				for (int i = 0; i < 50; i++) {
+					if (rooms[i].get_availability() == true && rooms[i].get_capacity() >= numofguest && rooms[i].get_room_type() == "Ordinal") {
+						cout << "We can offer you room" << rooms[i].get_room_number() << " on " << rooms[i].get_roomlvl() << endl;
+						cout << "This room is designed for " << rooms[i].get_capacity() << " guest(s)" << endl << "And costs " << rooms[i].get_room_price() << "$ per day" << endl;
+						cout << "Will you take it?(y/n)" << endl << "Your answer: "; cin >> accepted;
+						if (accepted == 'y' || accepted == 'Y') {
+							cout << "Great! Let's register you" << endl;
+							cout << "For this we need following information\n";
+							cout << "First Name: "; cin >> first_name;
+							for (int a = 0; a < first_name.length(); a++) {
+								if ((int(first_name[a] >= 65) && int(first_name[a] <= 90)) || (int(first_name[a]) >= 97 && int(first_name[a] <= 122))) {
+									continue;
+								}
+								else {
+									cout << "You can't have such first name as " << first_name;
+									cout << "Re-enter your First Name: "; cin >> first_name;
+									a = -1;
+								}
+							}
+							cout << "Last Name: "; cin >> last_name;
+							for (int a = 0; a < last_name.length(); a++) {
+								if ((int(last_name[a] >= 65) && int(last_name[a] <= 90)) || (int(last_name[a]) >= 97 && int(last_name[a] <= 122))) {
+									continue;
+								}
+								else {
+									cout << "You can't have such first name as " << last_name;
+									cout << "Re-enter your First Name: "; cin >> last_name
+;
+									a = -1;
+								}
+							}
+							full_name = first_name + " " + last_name;
+							cout << "Your identification number (passport ID): "; cin >> id;
+							cout << "How many days are you going to stay?" << endl; cin >> stayDays;
+							cout << "OK! " << rooms[i].get_room_type() << " room number " << rooms[i].get_room_number() << " is reserved for "
+								<< full_name << " for " << stayDays << " days" << endl;
+							rooms[i].set_availability(false);
+							rooms[i].set_days_stayed(stayDays);
+							rooms[i].set_guest_identification(id);
+							rooms[i].set_guest_name(full_name);
+							loging.open("Data.txt", ios::ate | ios::out);
+							loging << ctime(&rawtime) << ": " << full_name << " is registered in room number " << rooms[i].get_room_number() << " for " << stayDays << " days" << endl;
+							loging.close();
+							break;
+						}
+						else if (accepted == 'n' || accepted == 'N') {
+							cout << "OK! Let's see other option" << endl;
+						}
+						else {
+							cout << "Wrong input" << endl;
+							i--;
+						}
+					}
+				}
+			}
+			}
+			for (int i = 0; i < 50; i++) {
 
+			}
+			ordinalPricePrint = false;
+			advPricePrint = false;
+			luxPricePrint = false;
+			advLuxPricePrint = false;
 			break;
 		}//room booking
 		case(2): {system("cls");
 			cout << "So here is freshest peices for service we are providing" << endl;
 			cout << "\t\t\tRooms" << endl;
-			bool ordinalPricePrint = false, advPricePrint = false, luxPricePrint = false, advLuxPricePrint = false;
 			for (int i = 0; i < 50; i++) {
 				if (rooms[i].get_room_type() == "Ordinal" && ordinalPricePrint == false) {
 					cout << rooms[i].get_room_type() << " room for one person: " << rooms[i].get_room_price() << "$ per day" << endl;
@@ -60,7 +146,21 @@ int main() {
 			break;
 		}//price list and available services
 		case(3): {system("cls");
-
+			receipt.open("Receipt.txt", ios::trunc | ios::out);
+			cout << "Type your ID to checkuot: "; cin >> id;
+			for (int i = 0; i < 50; i++) {
+				if (rooms[i].get_guest_identification() == id) {
+					bill(rooms, id);
+				}
+				else if (i == 50) {
+					cout << "We could not find you. Check your ID and try again" << endl;
+				}
+				else {
+					continue;
+				}
+			}
+			system("notepad /p Receipt.txt");
+			receipt.close();
 			break;
 		}//billing system
 		case(4): {system("cls");
