@@ -1,11 +1,5 @@
 			Payment details
-Room for 4 days.....50$
-Comode 9.85$
-TV 15.59$
-Air conditioner 20.85$
-Mini-bar 45.5$
-Morning meal 13.45$
-Gym 21.5$
-Name: gg hh
-Amount: 176.74$
+Room for 4 days: 50$
+Name: rr ettr
+Amount: 50$
 **********Thank you for choosing us**********

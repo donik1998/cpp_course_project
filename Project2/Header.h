@@ -4,6 +4,9 @@
 #include<fstream>
 #include<process.h>
 using namespace std;
+char accepted; int stayDays;
+string id, first_name, last_name, full_name;
+bool GlobalBill = false;
 string furniture_name[4] = { "Comode", "Wardrobe", "Armchair", "Mini-bar" };
 string equipment_name[4] = { "TV", "Fridge", "Air conditioner", "Laptop" };
 string services_name[7] = { "Morning meal", "Laundry", "Additional cleaning", "Gym", "Guide", "Transport renting", "Taxi from airport to hotel" };
@@ -201,42 +204,7 @@ public:
 ofstream loging, receipt;
 time_t rawtime;
 struct tm *timeinfo;
-void show_advanced_avalability(Rooms r[50]){
-	int advanced_avalability = 0;
-	for (int i = 0; i < 50; i++){
-		if (r[i].get_availability() == true && r[i].get_room_type() == "Advanced"){
-			advanced_avalability++;
-		}
-	}
-	cout << "We have " << advanced_avalability << " Advanced rooms available" << endl;
-}
-void show_lux_availability(Rooms r[50]){
-	int lux_avalability = 0;
-	for (int i = 0; i < 50; i++){
-		if (r[i].get_availability() == true && r[i].get_room_type() == "Lux"){
-			lux_avalability++;
-		}
-	}
-	cout << "We have " << lux_avalability << " Lux rooms available" << endl;
-}
-void show_adv_lux_availability(Rooms r[50]){
-	int advancedlux_avalability = 0;
-	for (int i = 0; i < 50; i++){
-		if (r[i].get_availability() == true && r[i].get_room_type() == "Advanced lux"){
-			advancedlux_avalability++;
-		}
-	}
-	cout << "We have " << advancedlux_avalability << " Advanced Lux rooms available" << endl;
-}
-void show_ordinal_availability(Rooms r[50]){
-	int ordinal_avalability = 0;
-	for (int i = 0; i < 50; i++){
-		if (r[i].get_availability() == true && r[i].get_room_type() == "Ordinal"){
-			ordinal_avalability++;
-		}
-	}
-	cout << "We have " << ordinal_avalability << " Ordinal rooms available" << endl;
-}
+
 void initialize(Rooms r[50]){
 	for (int i = 0; i < 50; i++){
 		r[i].set_defaults_conv();
@@ -534,28 +502,29 @@ void bill(Rooms r[50], string id) {
 	for (int i = 0; i < 50; i++) {
 		if (receipt.is_open() == true) {
 			if (r[i].get_availability() == false && r[i].get_guest_identification() == id) {
+				GlobalBill = true;
 				cout << "Alright! " << r[i].get_guest_name() << endl;
 				tempName = r[i].get_guest_name();
-				cout << "You have lived in " << r[i].get_room_type() << " number " << r[i].get_room_number() << " on " << r[i].get_roomlvl() << " for " << r[i].get_days_stayed() << " days" << endl;
+				cout << "You have lived in " << r[i].get_room_type() << " number " << r[i].get_room_number() << " on " << r[i].get_roomlvl() << " floor for " << r[i].get_days_stayed() << " days" << endl;
 				cout << "It costs " << r[i].get_room_price() << "$ per day. So you have to pay " << r[i].get_days_stayed()*r[i].get_room_price() << "$ for room rent" << endl;
 				total += (r[i].get_days_stayed()*r[i].get_room_price());
-				receipt << "Room for " << r[i].get_days_stayed() << " days....." << total << "$" << endl;
+				receipt << "Room for " << r[i].get_days_stayed() << " days: " << total << "$" << endl;
 				for (int j = 0; j < 4; j++) {
 					if (r[i].get_furniture_status(furniture_name[j]) == true) {
 						cout << "You also rented " << furniture_name[j] << " for " << fur_rent_price[j] << "$" << endl;
-						receipt << furniture_name[j] << " " << fur_rent_price[j] << "$" << endl;
+						receipt << furniture_name[j] << ": " << fur_rent_price[j] << "$" << endl;
 						total += fur_rent_price[j];
 					}
 					if (r[i].get_equipment_status(equipment_name[j]) == true) {
 						cout << "You also rented" << equipment_name[j] << " for " << eq_rent_price[j] << "$" << endl;
-						receipt << equipment_name[j] << " " << eq_rent_price[j] << "$" << endl;
+						receipt << equipment_name[j] << ": " << eq_rent_price[j] << "$" << endl;
 						total += eq_rent_price[j];
 					}
 				}
 				for (int k = 0; k < 7; k++) {
 					if (r[i].get_service_status(services_name[k]) == true) {
-						cout << "You also rent " << services_name[k] << " for " << serv_price[k] << endl;
-						receipt << services_name[k] << " " << serv_price[k] << "$" << endl;
+						cout << "You also ordered " << services_name[k] << " for " << serv_price[k] << endl;
+						receipt << services_name[k] << ": " << serv_price[k] << "$" << endl;
 						total += serv_price[k];
 					}
 				}
@@ -567,4 +536,60 @@ void bill(Rooms r[50], string id) {
 	receipt << "Name: " << tempName << endl;
 	receipt << "Amount: " << total << "$" << endl;
 	receipt << "**********Thank you for choosing us**********" << endl;
+}
+string CheckMyString(string entry) {
+	for (int a = 0; a < entry.length(); a++) {
+		if ((int(entry[a] >= 65) && int(entry[a] <= 90)) || (int(entry[a]) >= 97 && int(entry[a] <= 122))) {
+			continue;
+		}
+		else {
+			cout << "You can't have such first name as " << entry;
+			cout << "Re-enter your First Name: "; cin >> entry;
+			a = -1;
+		}
+	}
+	return entry;
+}//function to check names for incorect symbols
+void GuestRegister(Rooms r[50], int NumberOfGuests, string RoomType) {
+	for (int i = 0; i < 50; i++) {
+		if (r[i].get_availability() == true && r[i].get_capacity() >= NumberOfGuests && r[i].get_room_type() == RoomType) {
+			cout << "We can offer you room" << r[i].get_room_number() << " on " << r[i].get_roomlvl() << " floor" << endl;
+			cout << "This room is designed for " << r[i].get_capacity() << " guest(s)" << endl << "And costs " << r[i].get_room_price() << "$ per day" << endl;
+			cout << "Will you take it?(y/n)" << endl << "Your answer: "; cin >> accepted;
+			if (accepted == 'y' || accepted == 'Y') {
+				cout << "Great! Let's register you" << endl;
+				cout << "For this we need following information\n";
+				cout << "First Name: "; cin >> first_name;
+				first_name = CheckMyString(first_name);
+				cout << "Last Name: "; cin >> last_name;
+				last_name = CheckMyString(last_name);
+				full_name = first_name + " " + last_name;
+				cout << "Your identification number (passport ID): "; cin >> id;
+				cout << "How many days are you going to stay?" << endl; cin >> stayDays;
+				cout << "OK! " << r[i].get_room_type() << " room number " << r[i].get_room_number() << " is reserved for "
+					<< full_name << " for " << stayDays << " days" << endl;
+				r[i].set_availability(false);
+				r[i].set_days_stayed(stayDays);
+				r[i].set_guest_identification(id);
+				r[i].set_guest_name(full_name);
+				loging.open("Data.txt", ios::ate | ios::out);
+				loging << ctime(&rawtime) << ": " << full_name << " is registered in room number " << r[i].get_room_number() << " for " << stayDays << " days" << endl;
+				loging.close();
+				break;
+			}
+			else if (accepted == 'n' || accepted == 'N') {
+				cout << "OK! Let's see other option" << endl;
+			}
+			else {
+				cout << "Wrong input" << endl;
+				i--;
+			}	
+		}
+		else if (r[i].get_capacity() < NumberOfGuests && r[i].get_room_type() != RoomType) {
+			cout << "We don't have any other " << RoomType << " rooms left\nYou can check if other type of rooms will suit you\n";
+		}
+		else {
+			continue;
+		}
+	}
 }

@@ -13,9 +13,7 @@ int main() {
 	initialize(rooms);
 	time(&rawtime);
 	bool ordinalPricePrint = false, advPricePrint = false, luxPricePrint = false, advLuxPricePrint = false;
-	int addDays, main_menu_choice = 1, guestChoice = 1, room_choice = 1, numofguest, stayDays;
-	char accepted;
-	string id, first_name, last_name, full_name;
+	int addDays, main_menu_choice = 1, guestChoice = 1, room_choice = 1, numofguest;
 	while (main_menu_choice != 0) {
 		cout << "Choose the option\n1. Book a room\n2. Price list and services availability\n3. Checkout\n4. Login to see more\n\n 0 - Exit";
 		cout << "\nYour choice: "; cin >> main_menu_choice;
@@ -43,65 +41,24 @@ int main() {
 			cout << "Which one will you choose?\nYour choice: "; cin >> room_choice;
 			switch (room_choice) {
 			case(1): {
-				show_ordinal_availability(rooms);
-				for (int i = 0; i < 50; i++) {
-					if (rooms[i].get_availability() == true && rooms[i].get_capacity() >= numofguest && rooms[i].get_room_type() == "Ordinal") {
-						cout << "We can offer you room" << rooms[i].get_room_number() << " on " << rooms[i].get_roomlvl() << endl;
-						cout << "This room is designed for " << rooms[i].get_capacity() << " guest(s)" << endl << "And costs " << rooms[i].get_room_price() << "$ per day" << endl;
-						cout << "Will you take it?(y/n)" << endl << "Your answer: "; cin >> accepted;
-						if (accepted == 'y' || accepted == 'Y') {
-							cout << "Great! Let's register you" << endl;
-							cout << "For this we need following information\n";
-							cout << "First Name: "; cin >> first_name;
-							for (int a = 0; a < first_name.length(); a++) {
-								if ((int(first_name[a] >= 65) && int(first_name[a] <= 90)) || (int(first_name[a]) >= 97 && int(first_name[a] <= 122))) {
-									continue;
-								}
-								else {
-									cout << "You can't have such first name as " << first_name;
-									cout << "Re-enter your First Name: "; cin >> first_name;
-									a = -1;
-								}
-							}
-							cout << "Last Name: "; cin >> last_name;
-							for (int a = 0; a < last_name.length(); a++) {
-								if ((int(last_name[a] >= 65) && int(last_name[a] <= 90)) || (int(last_name[a]) >= 97 && int(last_name[a] <= 122))) {
-									continue;
-								}
-								else {
-									cout << "You can't have such first name as " << last_name;
-									cout << "Re-enter your First Name: "; cin >> last_name
-;
-									a = -1;
-								}
-							}
-							full_name = first_name + " " + last_name;
-							cout << "Your identification number (passport ID): "; cin >> id;
-							cout << "How many days are you going to stay?" << endl; cin >> stayDays;
-							cout << "OK! " << rooms[i].get_room_type() << " room number " << rooms[i].get_room_number() << " is reserved for "
-								<< full_name << " for " << stayDays << " days" << endl;
-							rooms[i].set_availability(false);
-							rooms[i].set_days_stayed(stayDays);
-							rooms[i].set_guest_identification(id);
-							rooms[i].set_guest_name(full_name);
-							loging.open("Data.txt", ios::ate | ios::out);
-							loging << ctime(&rawtime) << ": " << full_name << " is registered in room number " << rooms[i].get_room_number() << " for " << stayDays << " days" << endl;
-							loging.close();
-							break;
-						}
-						else if (accepted == 'n' || accepted == 'N') {
-							cout << "OK! Let's see other option" << endl;
-						}
-						else {
-							cout << "Wrong input" << endl;
-							i--;
-						}
-					}
-				}
+				cout << "How many are you: "; cin >> numofguest;
+				GuestRegister(rooms, numofguest, "Ordinal");
 			}
+			case(2): {
+				cout << "How many are you: "; cin >> numofguest;
+				GuestRegister(rooms, numofguest, "Advanced");
+				break;
 			}
-			for (int i = 0; i < 50; i++) {
-
+			case(3): {
+				cout << "How many are you: "; cin >> numofguest;
+				GuestRegister(rooms, numofguest, "Lux");
+				break;
+			}
+			case(4): {
+				cout << "How many are you: "; cin >> numofguest;
+				GuestRegister(rooms, numofguest, "Advanced Lux");
+				break;
+			}
 			}
 			ordinalPricePrint = false;
 			advPricePrint = false;
@@ -148,25 +105,31 @@ int main() {
 		case(3): {system("cls");
 			receipt.open("Receipt.txt", ios::trunc | ios::out);
 			cout << "Type your ID to checkuot: "; cin >> id;
+			bool foundid = false;
 			for (int i = 0; i < 50; i++) {
 				if (rooms[i].get_guest_identification() == id) {
+					foundid = true;
 					bill(rooms, id);
-				}
-				else if (i == 50) {
-					cout << "We could not find you. Check your ID and try again" << endl;
 				}
 				else {
 					continue;
 				}
 			}
-			system("notepad /p Receipt.txt");
+			if (foundid == true) {
+				system("notepad /p Receipt.txt");
+			}
+			else {
+				cout << "Unfortunately, we were unable to fing your id.\nTry again\n";
+			}
 			receipt.close();
 			break;
 		}//billing system
 		case(4): {system("cls");
 			cout << "Type your passport ID: "; cin >> id;
+			bool found = false;
 			for (int i = 0; i < 50; i++) {
 				if (id == rooms[i].get_guest_identification()) {
+					found = true;
 					while (guestChoice != 0) {
 						cout << "Alright! " << rooms[i].get_guest_name() << " what are you going to do" << endl;
 						cout << "1. Add services\n2. Add equipment\n3. Extend period of living in hotel";
@@ -194,19 +157,36 @@ int main() {
 							break;
 						}
 						case(5): {
+							char printchoice;
+							receipt.open("CurrentBill.txt", ios::out | ios::trunc);
 							cout << "OK! For now you have to pay for" << endl;
 							bill(rooms, id);
+							if (GlobalBill == true) {
+								cout << "Wolud you like to print current bill?(y/n)" << endl;
+								cout << "Your answer: "; cin >> printchoice;
+								if (printchoice == 'y' || printchoice == 'Y') {
+									cout << "Here we go!" << endl;
+									system("notepad /p CurrentBill.txt");
+								}
+								else if (printchoice == 'N' || printchoice == 'n') {
+									cout << "Alright" << endl;
+								}
+								else {
+									cout << "Whatever" << endl;
+								}
+							}
+							receipt.close();
 							break;
 						}
 						}
 					}
 				}
-				else if ((i + 1) == 50) {
-					cout << "We dont have a guest with such ID passport\nTry again or ";
-				}
 				else {
 					continue;
 				}
+			}
+			if (found == false) {
+				cout << "Unfortunately, we were unable to fing your id.\nTry again\n";
 			}
 		}//login system with additional possibilities
 		}
