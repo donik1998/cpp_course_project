@@ -19,51 +19,29 @@ int main() {
 		cout << "\nYour choice: "; cin >> main_menu_choice;
 		switch (main_menu_choice) {
 		case(1): {system("cls");
-			cout << "OK! Type the number of guests: "; cin >> numofguest;
+			cout << "We offer following king of rooms available" << endl;
 			for (int i = 0; i < 50; i++) {
-				if (rooms[i].get_capacity() >= numofguest && rooms[i].get_room_type() == "Ordinal" && rooms[i].get_availability() == true && ordinalPricePrint == false) {
-					ordinalPricePrint = true;
-					cout << "1. We can offer you Ordinal room" << endl;
+				if (rooms[i].get_availability() == true && rooms[i].get_room_type == "Ordinal" && ordinalPricePrint == false) {
+					cout << "1. Ordinal room" << endl; ordinalPricePrint = true;
 				}
-				if (rooms[i].get_capacity() >= numofguest && rooms[i].get_room_type() == "Advanced" && rooms[i].get_availability() == true && advPricePrint == false) {
-					advPricePrint = true;
-					cout << "2. We can offer you Advanced room" << endl;
+				if (rooms[i].get_availability() == true && rooms[i].get_room_type() == "Advanced"&&advPricePrint == false) {
+					cout << "2. Advanced room" << endl; advPricePrint = true;
 				}
-				if (rooms[i].get_capacity() >= numofguest && rooms[i].get_room_type() == "Lux" && rooms[i].get_availability() == true && luxPricePrint == false) {
-					luxPricePrint = true;
-					cout << "3. We can offer you Lux room" << endl;
+				if (rooms[i].get_availability() == true && rooms[i].get_room_type() == "Lux"&&luxPricePrint == false) {
+					cout << "3. Lux room" << endl; luxPricePrint = true;
 				}
-				if (rooms[i].get_capacity() >= numofguest && rooms[i].get_room_type() == "Advanced lux" && rooms[i].get_availability() == true && advLuxPricePrint == false) {
-					advLuxPricePrint = true;
-					cout << "4. We can offer you Advanced lux room" << endl;
+				if (rooms[i].get_availability() == true && rooms[i].get_room_type() == "Advanced room"&&advLuxPricePrint == false) {
+					cout << "4. Advanced room" << endl; advLuxPricePrint = true;
 				}
 			}
-			cout << "Which one will you choose?\nYour choice: "; cin >> room_choice;
+			cout << "What are you going to choose\n\nYour choice: "; cin >> room_choice;
 			switch (room_choice) {
 			case(1): {
-				//cout << "How many are you: "; cin >> numofguest;
-				GuestRegister(rooms, numofguest, "Ordinal");
-			}
-			case(2): {
-				//cout << "How many are you: "; cin >> numofguest;
-				GuestRegister(rooms, numofguest, "Advanced");
-				break;
-			}
-			case(3): {
-				//cout << "How many are you: "; cin >> numofguest;
-				GuestRegister(rooms, numofguest, "Lux");
-				break;
-			}
-			case(4): {
-				//cout << "How many are you: "; cin >> numofguest;
-				GuestRegister(rooms, numofguest, "Advanced Lux");
+
 				break;
 			}
 			}
 			ordinalPricePrint = false;
-			advPricePrint = false;
-			luxPricePrint = false;
-			advLuxPricePrint = false;
 			break;
 		}//room booking
 		case(2): {system("cls");

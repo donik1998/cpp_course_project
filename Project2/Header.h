@@ -200,6 +200,10 @@ public:
 	float get_room_price(){
 		return room_price;
 	}
+	~Rooms(){
+		cout << "Room is freed for other guests\n";
+		set_availability(true);
+	}
 };
 ofstream loging, receipt;
 time_t rawtime;
@@ -497,12 +501,13 @@ void add_features(Rooms r[50], string id){
 	}
 }
 void bill(Rooms r[50], string id) {
-	float total = 0; string tempName;
+	float total = 0; string tempName; Rooms *roomptr = new Rooms;
 	receipt << "\t\t\tPayment details\n";
 	for (int i = 0; i < 50; i++) {
 		if (receipt.is_open() == true) {
 			if (r[i].get_availability() == false && r[i].get_guest_identification() == id) {
 				GlobalBill = true;
+				*roomptr = r[i];
 				cout << "Alright! " << r[i].get_guest_name() << endl;
 				tempName = r[i].get_guest_name();
 				cout << "You have lived in " << r[i].get_room_type() << " number " << r[i].get_room_number() << " on " << r[i].get_roomlvl() << " floor for " << r[i].get_days_stayed() << " days" << endl;
@@ -532,6 +537,7 @@ void bill(Rooms r[50], string id) {
 		}else {
 			cout << "File is closed!!!" << endl;
 		}
+		delete roomptr;
 	}
 	receipt << "Name: " << tempName << endl;
 	receipt << "Amount: " << total << "$" << endl;
@@ -552,7 +558,7 @@ string CheckMyString(string entry) {
 }//function to check names for incorect symbols
 void GuestRegister(Rooms r[50], int NumberOfGuests, string RoomType) {
 	for (int i = 0; i < 50; i++) {
-		if (r[i].get_availability() == true && NumberOfGuests <= r[i].get_capacity() && r[i].get_room_type() == RoomType) {
+		if (NumberOfGuests > 0 && r[i].get_availability() == true && r[i].get_capacity() >= NumberOfGuests && r[i].get_room_type() == RoomType) {
 			cout << "We can offer you room" << r[i].get_room_number() << " on " << r[i].get_roomlvl() << " floor" << endl;
 			cout << "This room is designed for " << r[i].get_capacity() << " guest(s)" << endl << "And costs " << r[i].get_room_price() << "$ per day" << endl;
 			cout << "Will you take it?(y/n)" << endl << "Your answer: "; cin >> accepted;
@@ -585,11 +591,19 @@ void GuestRegister(Rooms r[50], int NumberOfGuests, string RoomType) {
 				i--;
 			}	
 		}
-		else if (NumberOfGuests > r[i].get_capacity() && r[i].get_room_type() != RoomType) {
+		else if (NumberOfGuests >= r[i].get_capacity() && NumberOfGuests != 0 && r[i].get_room_type() != RoomType || r[i].get_availability() == false) {
+			cout << "This is else if" << endl;
 			continue;
 		}
 		else {
-			cout << "We don't have any other " << RoomType << " rooms left\nYou can check if other type of rooms will suit you\n";
+			cout << "Room type is " << RoomType << endl;
+			cout << "Room number: " << r[i].get_room_number() << endl;
+			cout << "Room level: " << r[i].get_roomlvl() << endl;
+			cout << "Room type: " << r[i].get_room_type() << endl;
+			cout << "Room availability: " << r[i].get_availability() << endl;
+			cout << "Room capacity: " << r[i].get_capacity() << endl;
+			cout << "i is " << i << " now" << endl;
+			cout << "We don't have any other " << RoomType << " rooms left\nYou can check if other type of rooms will suit you\n"; break;
 		}
 	}
 }
