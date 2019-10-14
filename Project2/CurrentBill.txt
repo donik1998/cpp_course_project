@@ -1,12 +1,11 @@
 			Payment details
-Room for 6 days: 75$
+Room for 10 days: 1500$
 Comode: 9.85$
 TV: 15.59$
-Wardrobe: 16.6$
-Air conditioner: 20.85$
-Morning meal: 13.45$
-Laundry: 14.5$
-Taxi from airport to hotel: 15.85$
-Name: rr rr
-Amount: 181.69$
+Fridge: 10.25$
+Mini-bar: 45.5$
+Gym: 21.5$
+Guide: 35.5$
+Name: rrr rr
+Amount: 1638.19$
 **********Thank you for choosing us**********

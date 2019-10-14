@@ -1,5 +1,11 @@
 			Payment details
-Room for 4 days: 50$
-Name: rr ettr
-Amount: 50$
+Room for 10 days: 1500$
+Comode: 9.85$
+TV: 15.59$
+Fridge: 10.25$
+Mini-bar: 45.5$
+Gym: 21.5$
+Guide: 35.5$
+Name: rrr rr
+Amount: 1638.19$
 **********Thank you for choosing us**********

@@ -552,7 +552,7 @@ string CheckMyString(string entry) {
 }//function to check names for incorect symbols
 void GuestRegister(Rooms r[50], int NumberOfGuests, string RoomType) {
 	for (int i = 0; i < 50; i++) {
-		if (r[i].get_availability() == true && r[i].get_capacity() >= NumberOfGuests && r[i].get_room_type() == RoomType) {
+		if (r[i].get_availability() == true && NumberOfGuests <= r[i].get_capacity() && r[i].get_room_type() == RoomType) {
 			cout << "We can offer you room" << r[i].get_room_number() << " on " << r[i].get_roomlvl() << " floor" << endl;
 			cout << "This room is designed for " << r[i].get_capacity() << " guest(s)" << endl << "And costs " << r[i].get_room_price() << "$ per day" << endl;
 			cout << "Will you take it?(y/n)" << endl << "Your answer: "; cin >> accepted;
@@ -585,11 +585,11 @@ void GuestRegister(Rooms r[50], int NumberOfGuests, string RoomType) {
 				i--;
 			}	
 		}
-		else if (r[i].get_capacity() < NumberOfGuests && r[i].get_room_type() != RoomType) {
-			cout << "We don't have any other " << RoomType << " rooms left\nYou can check if other type of rooms will suit you\n";
+		else if (NumberOfGuests > r[i].get_capacity() && r[i].get_room_type() != RoomType) {
+			continue;
 		}
 		else {
-			continue;
+			cout << "We don't have any other " << RoomType << " rooms left\nYou can check if other type of rooms will suit you\n";
 		}
 	}
 }

@@ -41,21 +41,21 @@ int main() {
 			cout << "Which one will you choose?\nYour choice: "; cin >> room_choice;
 			switch (room_choice) {
 			case(1): {
-				cout << "How many are you: "; cin >> numofguest;
+				//cout << "How many are you: "; cin >> numofguest;
 				GuestRegister(rooms, numofguest, "Ordinal");
 			}
 			case(2): {
-				cout << "How many are you: "; cin >> numofguest;
+				//cout << "How many are you: "; cin >> numofguest;
 				GuestRegister(rooms, numofguest, "Advanced");
 				break;
 			}
 			case(3): {
-				cout << "How many are you: "; cin >> numofguest;
+				//cout << "How many are you: "; cin >> numofguest;
 				GuestRegister(rooms, numofguest, "Lux");
 				break;
 			}
 			case(4): {
-				cout << "How many are you: "; cin >> numofguest;
+				//cout << "How many are you: "; cin >> numofguest;
 				GuestRegister(rooms, numofguest, "Advanced Lux");
 				break;
 			}
