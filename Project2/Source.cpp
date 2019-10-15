@@ -19,7 +19,7 @@ int main() {
 		cout << "\nYour choice: "; cin >> main_menu_choice;
 		switch (main_menu_choice) {
 			//room booking
-		case(1): {system("cls");
+			case(1): {system("cls");
 			cout << "We offer following king of rooms available" << endl;
 			cout << "But first, we need to know how many are you? "; cin >> numofguest;
 			while (numofguest <= 0) {
