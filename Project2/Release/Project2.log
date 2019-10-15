@@ -1,0 +1,12 @@
+﻿  Source.cpp
+c:\users\doniyor\documents\github\cpp_course_project\project2\header.h(13): warning C4305: инициализация: усечение из "double" в "float"
+c:\users\doniyor\documents\github\cpp_course_project\project2\header.h(14): warning C4305: инициализация: усечение из "double" в "float"
+c:\users\doniyor\documents\github\cpp_course_project\project2\header.h(15): warning C4305: инициализация: усечение из "double" в "float"
+c:\users\doniyor\documents\github\cpp_course_project\project2\header.h(545): warning C4018: <: несоответствие типов со знаком и без знака
+  Создание кода
+c:\users\doniyor\documents\github\cpp_course_project\project2\header.h(154): warning C4715: Additional_Services::get_service_status: значение возвращается не при всех путях выполнения
+c:\users\doniyor\documents\github\cpp_course_project\project2\header.h(101): warning C4715: Conveniences::get_equipment_status: значение возвращается не при всех путях выполнения
+c:\users\doniyor\documents\github\cpp_course_project\project2\header.h(80): warning C4715: Conveniences::get_furniture_status: значение возвращается не при всех путях выполнения
+  All 278 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Создание кода завершено
+  Project2.vcxproj -> C:\Users\Doniyor\Documents\GitHub\cpp_course_project\Release\Project2.exe
