@@ -4,7 +4,7 @@
 #include<fstream>
 #include<process.h>
 using namespace std;
-fstream loging, receipt, initializationfile;
+fstream loging, receipt;
 time_t rawtime;
 struct tm *timeinfo;
 char accepted; int stayDays;
@@ -212,13 +212,7 @@ public:
 //classes
 
 //functions
-void initializeFromFile(Rooms r[50]) {
-	for (int i = 0; i < 50; i++) {
-		
-	}
-}
 void initialize(Rooms r[50]){
-	initializationfile.open("Initialization.txt", ios::out | ios::app | ios::in);
 	for (int i = 0; i < 50; i++){
 		if (i >= 0 && i < 10){
 			r[i].set_roomlevel_and_number(1, i + 1);
@@ -228,15 +222,6 @@ void initialize(Rooms r[50]){
 			r[i].set_availability(true);
 			r[i].set_guest_name("\0");
 			r[i].set_guest_identification("\0");
-			initializationfile << "Room number: " << r[i].get_room_number()
-				<< endl << "Room's level: " << r[i].get_roomlvl() << endl;
-			initializationfile << "Room type: " << r[i].get_room_type() << endl;
-			initializationfile << "Room price: " << r[i].get_room_price() << endl;
-			initializationfile << "Room capacity: " << r[i].get_capacity() << endl;
-			initializationfile << "Rooms availability: " << r[i].get_availability() << endl;
-			initializationfile << "Guest name: " << r[i].get_guest_name() << endl;
-			initializationfile << "Guest identification: " << r[i].get_guest_identification() << endl;
-			initializationfile << "________________________________________________" << endl;
 		}
 		if (i < 20 && i >= 10){
 			r[i].set_roomlevel_and_number(2, i + 1);
@@ -246,15 +231,6 @@ void initialize(Rooms r[50]){
 			r[i].set_availability(true);
 			r[i].set_guest_name("\0");
 			r[i].set_guest_identification("\0");
-			initializationfile << "Room number: " << r[i].get_room_number()
-				<< endl << "Room's level: " << r[i].get_roomlvl() << endl;
-			initializationfile << "Room type: " << r[i].get_room_type() << endl;
-			initializationfile << "Room price: " << r[i].get_room_price() << endl;
-			initializationfile << "Room capacity: " << r[i].get_capacity() << endl;
-			initializationfile << "Rooms availability: " << r[i].get_availability() << endl;
-			initializationfile << "Guest name: " << r[i].get_guest_name() << endl;
-			initializationfile << "Guest identification: " << r[i].get_guest_identification() << endl;
-			initializationfile << "________________________________________________" << endl;
 		}
 		else if (i >= 20 && i < 30){
 			r[i].set_roomlevel_and_number(3, i + 1);
@@ -264,15 +240,6 @@ void initialize(Rooms r[50]){
 			r[i].set_capacity(3);
 			r[i].set_guest_name("\0");
 			r[i].set_guest_identification("\0");
-			initializationfile << "Room number: " << r[i].get_room_number()
-				<< endl << "Room's level: " << r[i].get_roomlvl() << endl;
-			initializationfile << "Room type: " << r[i].get_room_type() << endl;
-			initializationfile << "Room price: " << r[i].get_room_price() << endl;
-			initializationfile << "Room capacity: " << r[i].get_capacity() << endl;
-			initializationfile << "Rooms availability: " << r[i].get_availability() << endl;
-			initializationfile << "Guest name: " << r[i].get_guest_name() << endl;
-			initializationfile << "Guest identification: " << r[i].get_guest_identification() << endl;
-			initializationfile << "________________________________________________" << endl;
 		}
 		else if (i >= 30 && i < 40){
 			r[i].set_roomlevel_and_number(4, i + 1);
@@ -282,15 +249,6 @@ void initialize(Rooms r[50]){
 			r[i].set_capacity(4);
 			r[i].set_guest_name("\0");
 			r[i].set_guest_identification("\0");
-			initializationfile << "Room number: " << r[i].get_room_number()
-				<< endl << "Room's level: " << r[i].get_roomlvl() << endl;
-			initializationfile << "Room type: " << r[i].get_room_type() << endl;
-			initializationfile << "Room price: " << r[i].get_room_price() << endl;
-			initializationfile << "Room capacity: " << r[i].get_capacity() << endl;
-			initializationfile << "Rooms availability: " << r[i].get_availability() << endl;
-			initializationfile << "Guest name: " << r[i].get_guest_name() << endl;
-			initializationfile << "Guest identification: " << r[i].get_guest_identification() << endl;
-			initializationfile << "________________________________________________" << endl;
 		}
 		else if (i >= 40 && i < 50){
 			r[i].set_roomlevel_and_number(5, i + 1);
@@ -300,15 +258,6 @@ void initialize(Rooms r[50]){
 			r[i].set_availability(true);
 			r[i].set_guest_name("\0");
 			r[i].set_guest_identification("\0");
-			initializationfile << "Room number: " << r[i].get_room_number()
-				<< endl << "Room's level: " << r[i].get_roomlvl() << endl;
-			initializationfile << "Room type: " << r[i].get_room_type() << endl;
-			initializationfile << "Room price: " << r[i].get_room_price() << endl;
-			initializationfile << "Room capacity: " << r[i].get_capacity() << endl;
-			initializationfile << "Rooms availability: " << r[i].get_availability() << endl;
-			initializationfile << "Guest name: " << r[i].get_guest_name() << endl;
-			initializationfile << "Guest identification: " << r[i].get_guest_identification() << endl;
-			initializationfile << "________________________________________________" << endl;
 		}
 		r[i].set_defaults_conv();
 		r[i].set_defaults_serv();

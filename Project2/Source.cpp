@@ -3,10 +3,6 @@
 #include"Header.h"
 #include<fstream>
 #include<ctime>
-/*known bugs: 
-see current bill*/
-/*stuff to do
-add initializing from file*/
 using namespace std;
 Rooms rooms[50];
 int main() {
