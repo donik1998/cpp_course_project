@@ -1,12 +1,2 @@
-Tue Oct 15 10:33:33 2019
-: qwe rr is registered in room number 32 for 4 days
-Morning meal is added for qwe rr in room number 32
-Morning meal is added for qwe rr in room number 32
-Morning meal is added for qwe rr in room number 32
-Morning meal is added for qwe rr in room number 32
-Morning meal is added for qwe rr in room number 32
-Morning meal is added for qwe rr in room number 32
-Morning meal is added for qwe rr in room number 32
-Morning meal is added for qwe rr in room number 32
-Morning meal is added for qwe rr in room number 32
-Morning meal is added for qwe rr in room number 32
+Tue Oct 15 13:34:29 2019
+: rr rr is registered in room number 1 for 4 days

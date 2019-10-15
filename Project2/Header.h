@@ -4,6 +4,9 @@
 #include<fstream>
 #include<process.h>
 using namespace std;
+fstream loging, receipt, initializationfile;
+time_t rawtime;
+struct tm *timeinfo;
 char accepted; int stayDays;
 string id, first_name, last_name, full_name;
 bool GlobalBill = false;
@@ -13,6 +16,7 @@ string services_name[7] = { "Morning meal", "Laundry", "Additional cleaning", "G
 float eq_rent_price[4] = { 15.59, 10.25, 20.85, 45.0 };
 float fur_rent_price[4] = { 9.85, 16.60, 12.20, 45.50 };
 float serv_price[7] = { 13.45, 14.50, 11.5, 21.5, 35.50, 49.99, 15.85 };
+//classes
 class Guest{
 private:
 	string guest_name, guest_identification_number;
@@ -205,20 +209,34 @@ public:
 		set_availability(true);
 	}
 };
-ofstream loging, receipt;
-time_t rawtime;
-struct tm *timeinfo;
+//classes
 
+//functions
+void initializeFromFile(Rooms r[50]) {
+	for (int i = 0; i < 50; i++) {
+		
+	}
+}
 void initialize(Rooms r[50]){
+	initializationfile.open("Initialization.txt", ios::out | ios::app | ios::in);
 	for (int i = 0; i < 50; i++){
-		r[i].set_defaults_conv();
-		r[i].set_defaults_serv();
 		if (i >= 0 && i < 10){
 			r[i].set_roomlevel_and_number(1, i + 1);
 			r[i].set_room_type("Ordinal");
 			r[i].set_room_price(12.50);
 			r[i].set_capacity(1);
 			r[i].set_availability(true);
+			r[i].set_guest_name("\0");
+			r[i].set_guest_identification("\0");
+			initializationfile << "Room number: " << r[i].get_room_number()
+				<< endl << "Room's level: " << r[i].get_roomlvl() << endl;
+			initializationfile << "Room type: " << r[i].get_room_type() << endl;
+			initializationfile << "Room price: " << r[i].get_room_price() << endl;
+			initializationfile << "Room capacity: " << r[i].get_capacity() << endl;
+			initializationfile << "Rooms availability: " << r[i].get_availability() << endl;
+			initializationfile << "Guest name: " << r[i].get_guest_name() << endl;
+			initializationfile << "Guest identification: " << r[i].get_guest_identification() << endl;
+			initializationfile << "________________________________________________" << endl;
 		}
 		if (i < 20 && i >= 10){
 			r[i].set_roomlevel_and_number(2, i + 1);
@@ -226,6 +244,17 @@ void initialize(Rooms r[50]){
 			r[i].set_room_price(25.00);
 			r[i].set_capacity(2);
 			r[i].set_availability(true);
+			r[i].set_guest_name("\0");
+			r[i].set_guest_identification("\0");
+			initializationfile << "Room number: " << r[i].get_room_number()
+				<< endl << "Room's level: " << r[i].get_roomlvl() << endl;
+			initializationfile << "Room type: " << r[i].get_room_type() << endl;
+			initializationfile << "Room price: " << r[i].get_room_price() << endl;
+			initializationfile << "Room capacity: " << r[i].get_capacity() << endl;
+			initializationfile << "Rooms availability: " << r[i].get_availability() << endl;
+			initializationfile << "Guest name: " << r[i].get_guest_name() << endl;
+			initializationfile << "Guest identification: " << r[i].get_guest_identification() << endl;
+			initializationfile << "________________________________________________" << endl;
 		}
 		else if (i >= 20 && i < 30){
 			r[i].set_roomlevel_and_number(3, i + 1);
@@ -233,6 +262,17 @@ void initialize(Rooms r[50]){
 			r[i].set_room_price(65.00);
 			r[i].set_availability(true);
 			r[i].set_capacity(3);
+			r[i].set_guest_name("\0");
+			r[i].set_guest_identification("\0");
+			initializationfile << "Room number: " << r[i].get_room_number()
+				<< endl << "Room's level: " << r[i].get_roomlvl() << endl;
+			initializationfile << "Room type: " << r[i].get_room_type() << endl;
+			initializationfile << "Room price: " << r[i].get_room_price() << endl;
+			initializationfile << "Room capacity: " << r[i].get_capacity() << endl;
+			initializationfile << "Rooms availability: " << r[i].get_availability() << endl;
+			initializationfile << "Guest name: " << r[i].get_guest_name() << endl;
+			initializationfile << "Guest identification: " << r[i].get_guest_identification() << endl;
+			initializationfile << "________________________________________________" << endl;
 		}
 		else if (i >= 30 && i < 40){
 			r[i].set_roomlevel_and_number(4, i + 1);
@@ -240,6 +280,17 @@ void initialize(Rooms r[50]){
 			r[i].set_room_price(150.00);
 			r[i].set_availability(true);
 			r[i].set_capacity(4);
+			r[i].set_guest_name("\0");
+			r[i].set_guest_identification("\0");
+			initializationfile << "Room number: " << r[i].get_room_number()
+				<< endl << "Room's level: " << r[i].get_roomlvl() << endl;
+			initializationfile << "Room type: " << r[i].get_room_type() << endl;
+			initializationfile << "Room price: " << r[i].get_room_price() << endl;
+			initializationfile << "Room capacity: " << r[i].get_capacity() << endl;
+			initializationfile << "Rooms availability: " << r[i].get_availability() << endl;
+			initializationfile << "Guest name: " << r[i].get_guest_name() << endl;
+			initializationfile << "Guest identification: " << r[i].get_guest_identification() << endl;
+			initializationfile << "________________________________________________" << endl;
 		}
 		else if (i >= 40 && i < 50){
 			r[i].set_roomlevel_and_number(5, i + 1);
@@ -247,7 +298,20 @@ void initialize(Rooms r[50]){
 			r[i].set_room_price(300);
 			r[i].set_capacity(6);
 			r[i].set_availability(true);
+			r[i].set_guest_name("\0");
+			r[i].set_guest_identification("\0");
+			initializationfile << "Room number: " << r[i].get_room_number()
+				<< endl << "Room's level: " << r[i].get_roomlvl() << endl;
+			initializationfile << "Room type: " << r[i].get_room_type() << endl;
+			initializationfile << "Room price: " << r[i].get_room_price() << endl;
+			initializationfile << "Room capacity: " << r[i].get_capacity() << endl;
+			initializationfile << "Rooms availability: " << r[i].get_availability() << endl;
+			initializationfile << "Guest name: " << r[i].get_guest_name() << endl;
+			initializationfile << "Guest identification: " << r[i].get_guest_identification() << endl;
+			initializationfile << "________________________________________________" << endl;
 		}
+		r[i].set_defaults_conv();
+		r[i].set_defaults_serv();
 	}
 }
 void add_furniture(Rooms r[50], string id){
@@ -268,32 +332,36 @@ void add_furniture(Rooms r[50], string id){
 				}
 				switch (furnutire_choice){
 				case(1) : {
-							  r[i].add_furniture(furniture_name[furnutire_choice - 1]);
-							  loging.open("Data.txt", ios::app);
-							  loging << furniture_name[furnutire_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  loging.close();
-							  break;
+					r[i].add_furniture(furniture_name[furnutire_choice - 1]);
+					loging.open("Data.txt", ios::app);
+					loging << ctime(&rawtime) << endl;
+					loging << furniture_name[furnutire_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+					loging.close();
+					break;
 				}
 				case(2) : {
-							  r[i].add_furniture(furniture_name[furnutire_choice - 1]);
-							  loging.open("Data.txt", ios::app);
-							  loging << furniture_name[furnutire_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  loging.close();
-							  break;
+					r[i].add_furniture(furniture_name[furnutire_choice - 1]);
+					loging.open("Data.txt", ios::app);
+					loging << ctime(&rawtime) << endl;
+					loging << furniture_name[furnutire_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+					loging.close();
+					break;
 				}
 				case(3) : {
-							  r[i].add_furniture(furniture_name[furnutire_choice - 1]);
-							  loging.open("Data.txt", ios::app);
-							  loging << furniture_name[furnutire_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  loging.close();
-							  break;
+					r[i].add_furniture(furniture_name[furnutire_choice - 1]);
+					loging.open("Data.txt", ios::app);
+					loging << ctime(&rawtime) << endl;
+					loging << furniture_name[furnutire_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+					loging.close();
+					break;
 				}
 				case(4) : {
-							  r[i].add_furniture(furniture_name[furnutire_choice - 1]);
-							  loging.open("Data.txt", ios::app);
-							  loging << furniture_name[furnutire_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  loging.close();
-							  break;
+					r[i].add_furniture(furniture_name[furnutire_choice - 1]);
+					loging.open("Data.txt", ios::app);
+					loging << ctime(&rawtime) << endl;
+					loging << furniture_name[furnutire_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+					loging.close();
+					break;
 				}
 				}
 			}
@@ -327,32 +395,36 @@ void add_equipment(Rooms r[50], string id){
 				}
 				switch (equipment_choice){
 				case(1) : {
-							  r[i].add_equipment(equipment_name[equipment_choice - 1]);
-							  loging.open("Data.txt", ios::app);
-							  loging << equipment_name[equipment_choice- 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  loging.close();
-							  break;
+					r[i].add_equipment(equipment_name[equipment_choice - 1]);
+					loging.open("Data.txt", ios::app);
+					loging << ctime(&rawtime) << endl;
+					loging << equipment_name[equipment_choice- 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+					loging.close();
+					break;
 				}
 				case(2) : {
-							  r[i].add_equipment(equipment_name[equipment_choice - 1]);
-							  loging.open("Data.txt", ios::app);
-							  loging << equipment_name[equipment_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  loging.close();
-							  break;
+					r[i].add_equipment(equipment_name[equipment_choice - 1]);
+					loging.open("Data.txt", ios::app);
+					loging << ctime(&rawtime) << endl;
+					loging << equipment_name[equipment_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+					loging.close();
+					break;
 				}
 				case(3) : {
-							  r[i].add_equipment(equipment_name[equipment_choice - 1]);
-							  loging.open("Data.txt", ios::app);
-							  loging << equipment_name[equipment_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  loging.close();
-							  break;
+					r[i].add_equipment(equipment_name[equipment_choice - 1]);
+					loging.open("Data.txt", ios::app);
+					loging << ctime(&rawtime) << endl;
+					loging << equipment_name[equipment_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+					loging.close();
+					break;
 				}
 				case(4) : {
-							  r[i].add_equipment(equipment_name[equipment_choice - 1]);
-							  loging.open("Data.txt", ios::app);
-							  loging << equipment_name[equipment_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  loging.close();
-							  break;
+					r[i].add_equipment(equipment_name[equipment_choice - 1]);
+					loging.open("Data.txt", ios::app);
+					loging << ctime(&rawtime) << endl;
+					loging << equipment_name[equipment_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+					loging.close();
+					break;
 				}
 				}
 			}
@@ -387,53 +459,60 @@ void add_services(Rooms r[50], string id){
 				}
 				switch (feature_choice){
 				case(1) : {
-							  r[i].add_service(services_name[feature_choice - 1]);
-							  loging.open("Data.txt", ios::app);
-							  loging << services_name[feature_choice- 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  loging.close();
-							  break;
+					r[i].add_service(services_name[feature_choice - 1]);
+					loging.open("Data.txt", ios::app);
+					loging << ctime(&rawtime) << endl;
+					loging << services_name[feature_choice- 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+					loging.close();
+					break;
 				}
 				case(2) : {
-							  r[i].add_service(services_name[feature_choice - 1]);
-							  loging.open("Data.txt", ios::app);
-							  loging << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  loging.close();
-							  break;
+					r[i].add_service(services_name[feature_choice - 1]);
+					loging.open("Data.txt", ios::app);
+					loging << ctime(&rawtime) << endl;
+					loging << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+					loging.close();
+					break;
 				}
 				case(3) : {
-							  r[i].add_service(services_name[feature_choice - 1]);
-							  loging.open("Data.txt", ios::app);
-							  loging << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  loging.close();
-							  break;
+					r[i].add_service(services_name[feature_choice - 1]);
+					loging.open("Data.txt", ios::app);
+					loging << ctime(&rawtime) << endl;
+					loging << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+					loging.close();
+					break;
 				}
 				case(4) : {
-							  r[i].add_service(services_name[feature_choice - 1]);
-							  loging.open("Data.txt", ios::app);
-							  loging << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  loging.close();
-							  break;
+					r[i].add_service(services_name[feature_choice - 1]);
+					loging.open("Data.txt", ios::app);
+					loging << ctime(&rawtime) << endl;
+					loging << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+					loging.close();
+					break;
 				}
 				case(5) : {
-							  r[i].add_service(services_name[feature_choice - 1]);
-							  loging.open("Data.txt", ios::app);
-							  loging << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  loging.close();
-							  break;
+					r[i].add_service(services_name[feature_choice - 1]);
+					loging.open("Data.txt", ios::app);
+					loging << ctime(&rawtime) << endl;
+					loging << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+					loging.close();
+					break;
 				}
 				case(6) : {
-							  r[i].add_service(services_name[feature_choice - 1]);
-							  loging.open("Data.txt", ios::app);
-							  loging << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  loging.close();
-							  break;
+					r[i].add_service(services_name[feature_choice - 1]);
+					loging.open("Data.txt", ios::app);
+					loging << ctime(&rawtime) << endl;
+					loging << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+					loging.close();
+					break;
 				}
 				case(7) : {
-							  r[i].add_service(services_name[feature_choice - 1]);
-							  loging.open("Data.txt", ios::app);
-							  loging << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
-							  loging.close();
-							  break;
+					r[i].add_service(services_name[feature_choice - 1]);
+					loging.open("Data.txt", ios::app);
+					loging << ctime(&rawtime) << endl;
+					loging << services_name[feature_choice - 1] << " is added for " << r[i].get_guest_name() << " in room number " << r[i].get_room_number() << endl;
+					loging.close();
+					break;
 				}
 				}
 			}
@@ -591,3 +670,4 @@ void GuestRegister(Rooms r[50], int NumberOfGuests, string RoomType) {
 		}
 	}
 }
+//functions
