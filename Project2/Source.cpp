@@ -5,7 +5,9 @@
 #include<ctime>
 using namespace std;
 Rooms rooms[50];
+string database[51][35];
 int main() {
+	initialize(rooms);
 	time(&rawtime);
 	bool ordinalPricePrint = false, advPricePrint = false, luxPricePrint = false, advLuxPricePrint = false;
 	int addDays, main_menu_choice = 1, guestChoice = 1, room_choice = 1, numofguest;

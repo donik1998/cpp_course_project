@@ -212,55 +212,27 @@ public:
 //classes
 
 //functions
-void initialize(Rooms r[50]){
-	for (int i = 0; i < 50; i++){
-		if (i >= 0 && i < 10){
-			r[i].set_roomlevel_and_number(1, i + 1);
-			r[i].set_room_type("Ordinal");
-			r[i].set_room_price(12.50);
-			r[i].set_capacity(1);
-			r[i].set_availability(true);
-			r[i].set_guest_name("\0");
-			r[i].set_guest_identification("\0");
+void initialize(string dataArray[51][35]) {
+	
+	for (int a = 1; a < 51; a++) {
+		for (int i = 1; i < 35; i++) {
+			if (a >= 0 && a < 10) {
+				
+			}
+			if (a < 20 && a >= 10) {
+				
+			}
+			else if (a >= 20 && a < 30) {
+				
+			}
+			else if (a >= 30 && a < 40) {
+				
+			}
+			else if (a >= 40 && a < 50) {
+				
+			}
+			
 		}
-		if (i < 20 && i >= 10){
-			r[i].set_roomlevel_and_number(2, i + 1);
-			r[i].set_room_type("Ordinal");
-			r[i].set_room_price(25.00);
-			r[i].set_capacity(2);
-			r[i].set_availability(true);
-			r[i].set_guest_name("\0");
-			r[i].set_guest_identification("\0");
-		}
-		else if (i >= 20 && i < 30){
-			r[i].set_roomlevel_and_number(3, i + 1);
-			r[i].set_room_type("Advanced");
-			r[i].set_room_price(65.00);
-			r[i].set_availability(true);
-			r[i].set_capacity(3);
-			r[i].set_guest_name("\0");
-			r[i].set_guest_identification("\0");
-		}
-		else if (i >= 30 && i < 40){
-			r[i].set_roomlevel_and_number(4, i + 1);
-			r[i].set_room_type("Lux");
-			r[i].set_room_price(150.00);
-			r[i].set_availability(true);
-			r[i].set_capacity(4);
-			r[i].set_guest_name("\0");
-			r[i].set_guest_identification("\0");
-		}
-		else if (i >= 40 && i < 50){
-			r[i].set_roomlevel_and_number(5, i + 1);
-			r[i].set_room_type("Advanced lux");
-			r[i].set_room_price(300);
-			r[i].set_capacity(6);
-			r[i].set_availability(true);
-			r[i].set_guest_name("\0");
-			r[i].set_guest_identification("\0");
-		}
-		r[i].set_defaults_conv();
-		r[i].set_defaults_serv();
 	}
 }
 void add_furniture(Rooms r[50], string id){
