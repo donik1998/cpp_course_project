@@ -1,1 +1,9 @@
-﻿  Project2.vcxproj -> C:\Users\Doniyor\Documents\GitHub\cpp_course_project\Debug\Project2.exe
+﻿  Source.cpp
+c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(20): warning C4305: инициализация: усечение из "double" в "float"
+c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(21): warning C4305: инициализация: усечение из "double" в "float"
+c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(22): warning C4305: инициализация: усечение из "double" в "float"
+c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(749): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(91): warning C4715: Conveniences::get_furniture_status: значение возвращается не при всех путях выполнения
+c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(112): warning C4715: Conveniences::get_equipment_status: значение возвращается не при всех путях выполнения
+c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(165): warning C4715: Additional_Services::get_service_status: значение возвращается не при всех путях выполнения
+  Project2.vcxproj -> C:\Users\Doniyor\Documents\GitHub\cpp_course_project\Debug\Project2.exe

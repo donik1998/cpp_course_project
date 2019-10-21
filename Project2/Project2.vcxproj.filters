@@ -20,13 +20,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Header.h">
+    <ClInclude Include="Functions and classes.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="SQLScript.sql">
-      <Filter>Source Files</Filter>
-    </None>
   </ItemGroup>
 </Project>

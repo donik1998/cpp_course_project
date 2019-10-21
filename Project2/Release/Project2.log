@@ -2,10 +2,10 @@
 c:\users\doniyor\documents\github\cpp_course_project\project2\header.h(16): warning C4305: инициализация: усечение из "double" в "float"
 c:\users\doniyor\documents\github\cpp_course_project\project2\header.h(17): warning C4305: инициализация: усечение из "double" в "float"
 c:\users\doniyor\documents\github\cpp_course_project\project2\header.h(18): warning C4305: инициализация: усечение из "double" в "float"
-c:\users\doniyor\documents\github\cpp_course_project\project2\header.h(624): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\doniyor\documents\github\cpp_course_project\project2\header.h(580): warning C4018: <: несоответствие типов со знаком и без знака
   Создание кода
-  2 of 280 functions ( 0.7%) were compiled, the rest were copied from previous compilation.
+  7 of 276 functions ( 2.5%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    2 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   Project2.vcxproj -> C:\Users\Doniyor\Documents\GitHub\cpp_course_project\Release\Project2.exe
