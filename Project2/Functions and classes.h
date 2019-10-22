@@ -439,7 +439,10 @@ public:
 		}
 	}
 }*/
-
+void initializeFromDatabase(Rooms r[50], string database[51][20]) {
+	
+}
+void addToDatabase(string roomNumber, string typeOfNote, string value, string databaseToModify[51][20]);
 void add_furniture(Rooms r[50], string id){
 	int counter = 1, furnutire_choice = 1;
 	bool found;
@@ -784,13 +787,10 @@ void GuestRegister(Rooms r[50], int NumberOfGuests, string RoomType) {
 				loging.open("Data.txt", ios::ate | ios::out);
 				loging << ctime(&rawtime) << ": " << full_name << " is registered in room number " << r[i].get_room_number() << " for " << stayDays << " days" << endl;
 				loging.close();
-				/*roomsdataArray[0][1] = "Availability"; roomsdataArray[0][2] = "Capacity";
-				roomsdataArray[0][3] = "Number"; roomsdataArray[0][4] = "Level";
-				roomsdataArray[0][5] = "Room type";	roomsdataArray[0][6] = "Rent days";
-				roomsdataArray[0][7] = "Room price"; roomsdataArray[0][8] = "Guest name";
-				roomsdataArray[0][9] = "Guest ID";*/
 				addToDatabase(to_string(i + 1), "Availability", to_string(false), roomsDatabase);
-
+				addToDatabase(to_string(i + 1), "Rent days", to_string(stayDays), roomsDatabase);
+				addToDatabase(to_string(i + 1), "Guest ID", id, roomsDatabase);
+				addToDatabase(to_string(i + 1), "Guest name", full_name, roomsDatabase);
 				break;
 			}
 			else if (accepted == 'n' || accepted == 'N') {
@@ -810,6 +810,12 @@ void addToDatabase(string roomNumber, string typeOfNote, string value, string da
 				databaseToModify[i][j] = value;
 			}
 		}
+	}
+	for (int i = 1; i <= 50; i++) {
+		for (int j = 1; j <= 20; j++) {
+			database << databaseToModify[i][j];
+		}
+		database << endl;
 	}
 }
 //functions
