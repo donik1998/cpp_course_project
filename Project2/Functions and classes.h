@@ -20,7 +20,7 @@ string services_name[7] = { "Morning meal", "Laundry", "Additional cleaning", "G
 float eq_rent_price[4] = { 15.59, 10.25, 20.85, 45.0 };
 float fur_rent_price[4] = { 9.85, 16.60, 12.20, 45.50 };
 float serv_price[7] = { 13.45, 14.50, 11.5, 21.5, 35.50, 49.99, 15.85 };
-string roomsDatabase[51][10], featuresDatabase[51][16];
+string roomsDatabase[51][20], featuresDatabase[51][20];
 //variables
 
 //classes
@@ -219,7 +219,7 @@ public:
 //classes
 
 //functions
-void initialize(string roomsdataArray[51][10], string featuresArray[51][16]) {
+/*void initialize(string roomsdataArray[51][20], string featuresArray[51][20]) {
 	roomsdataArray[0][1] = "Availability"; roomsdataArray[0][2] = "Capacity";
 	roomsdataArray[0][3] = "Number"; roomsdataArray[0][4] = "Level";
 	roomsdataArray[0][5] = "Room type";	roomsdataArray[0][6] = "Rent days";
@@ -235,7 +235,7 @@ void initialize(string roomsdataArray[51][10], string featuresArray[51][16]) {
 	featuresArray[0][15] = services_name[6];
 	//loop to initialize room's database
 	for (int a = 1; a < 51; a++) {
-		for (int i = 1; i <= 10; i++) {
+		for (int i = 1; i <= 20; i++) {
 			//ordinal rooms for a single guest
 			if (a >= 1 && a <= 10) {
 				if (roomsdataArray[0][i] == "Availability") {
@@ -390,7 +390,7 @@ void initialize(string roomsdataArray[51][10], string featuresArray[51][16]) {
 	}
 	//loop to initialize features database
 	for (int i = 1; i < 51; i++) {
-		for (int j = 1; j <= 15; j++) {
+		for (int j = 1; j <= 20; j++) {
 			if (featuresArray[0][j] == furniture_name[0]) {
 				featuresArray[i][j] = to_string(false);
 			}
@@ -438,7 +438,8 @@ void initialize(string roomsdataArray[51][10], string featuresArray[51][16]) {
 			}
 		}
 	}
-}
+}*/
+
 void add_furniture(Rooms r[50], string id){
 	int counter = 1, furnutire_choice = 1;
 	bool found;
@@ -783,6 +784,13 @@ void GuestRegister(Rooms r[50], int NumberOfGuests, string RoomType) {
 				loging.open("Data.txt", ios::ate | ios::out);
 				loging << ctime(&rawtime) << ": " << full_name << " is registered in room number " << r[i].get_room_number() << " for " << stayDays << " days" << endl;
 				loging.close();
+				/*roomsdataArray[0][1] = "Availability"; roomsdataArray[0][2] = "Capacity";
+				roomsdataArray[0][3] = "Number"; roomsdataArray[0][4] = "Level";
+				roomsdataArray[0][5] = "Room type";	roomsdataArray[0][6] = "Rent days";
+				roomsdataArray[0][7] = "Room price"; roomsdataArray[0][8] = "Guest name";
+				roomsdataArray[0][9] = "Guest ID";*/
+				addToDatabase(to_string(i + 1), "Availability", to_string(false), roomsDatabase);
+
 				break;
 			}
 			else if (accepted == 'n' || accepted == 'N') {
@@ -792,6 +800,15 @@ void GuestRegister(Rooms r[50], int NumberOfGuests, string RoomType) {
 				cout << "Wrong input" << endl;
 				i--;
 			}	
+		}
+	}
+}
+void addToDatabase(string roomNumber, string typeOfNote, string value, string databaseToModify[51][20]) {
+	for (int i = 1; i <= 50; i++) {
+		for (int j = 1; j <= 20; j++) {
+			if (databaseToModify[0][i] == typeOfNote && to_string(i) == roomNumber) {
+				databaseToModify[i][j] = value;
+			}
 		}
 	}
 }

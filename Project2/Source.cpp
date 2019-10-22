@@ -7,7 +7,7 @@ using namespace std;
 Rooms rooms[50];
 
 int main() {
-	initialize(roomsDatabase, featuresDatabase);
+	//initialize(roomsDatabase, featuresDatabase);
 	database.open("Database.txt", ios::in | ios::app);
 	time(&rawtime);
 	bool ordinalPricePrint = false, advPricePrint = false, luxPricePrint = false, advLuxPricePrint = false;
