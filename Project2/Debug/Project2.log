@@ -2,7 +2,8 @@
 c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(20): warning C4305: инициализация: усечение из "double" в "float"
 c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(21): warning C4305: инициализация: усечение из "double" в "float"
 c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(22): warning C4305: инициализация: усечение из "double" в "float"
-c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(753): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(462): warning C4101: tempint: неиспользованная локальная переменная
+c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(794): warning C4018: <: несоответствие типов со знаком и без знака
 c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(91): warning C4715: Conveniences::get_furniture_status: значение возвращается не при всех путях выполнения
 c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(112): warning C4715: Conveniences::get_equipment_status: значение возвращается не при всех путях выполнения
 c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(165): warning C4715: Additional_Services::get_service_status: значение возвращается не при всех путях выполнения

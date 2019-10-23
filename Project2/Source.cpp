@@ -7,8 +7,12 @@ using namespace std;
 Rooms rooms[50];
 
 int main() {
+	database.open("Database.txt", ios::in);
 	//initialize(roomsDatabase, featuresDatabase);
-	database.open("Database.txt", ios::in | ios::app);
+	//initializeFromDatabase(rooms, roomsDatabase);
+	string str = "23", tempCommands, commands;
+	getline(database, commands); getline(database, commands);
+	cout << commands[1] << endl;
 	time(&rawtime);
 	bool ordinalPricePrint = false, advPricePrint = false, luxPricePrint = false, advLuxPricePrint = false;
 	int addDays, main_menu_choice = 1, guestChoice = 1, room_choice = 1, numofguest;

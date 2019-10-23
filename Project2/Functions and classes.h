@@ -219,7 +219,12 @@ public:
 //classes
 
 //functions
-/*void initialize(string roomsdataArray[51][20], string featuresArray[51][20]) {
+int stringToInt(string entry) {
+	int temp;
+	temp = stoi(entry);
+	return temp;
+}
+void initialize(string roomsdataArray[51][20], string featuresArray[51][20]) {
 	roomsdataArray[0][1] = "Availability"; roomsdataArray[0][2] = "Capacity";
 	roomsdataArray[0][3] = "Number"; roomsdataArray[0][4] = "Level";
 	roomsdataArray[0][5] = "Room type";	roomsdataArray[0][6] = "Rent days";
@@ -389,6 +394,7 @@ public:
 		}
 	}
 	//loop to initialize features database
+	database << "Rooms database\n";
 	for (int i = 1; i < 51; i++) {
 		for (int j = 1; j <= 20; j++) {
 			if (featuresArray[0][j] == furniture_name[0]) {
@@ -438,9 +444,44 @@ public:
 			}
 		}
 	}
-}*/
-void initializeFromDatabase(Rooms r[50], string database[51][20]) {
-	
+	for (int i = 0; i <= 50; i++) {
+		for (int j = 0; j <= 20; j++) {
+			database << roomsdataArray[i][j] << "|";
+		}
+		database << endl;
+	}
+	database << "Features database\n";
+	for (int i = 0; i <= 50; i++) {
+		for (int j = 0; j <= 20; j++) {
+			database << featuresArray[i][j] << "|";
+		}
+		database << endl;
+	}
+}
+void initializeFromDatabase(Rooms r[50], string entryDatabase[51][20]) {
+	string info, tempstr, tempCommands, commands; int tempint;
+	getline(database, commands); getline(database, commands);
+	/*roomsdataArray[0][1] = "Availability"; roomsdataArray[0][2] = "Capacity";
+	roomsdataArray[0][3] = "Number"; roomsdataArray[0][4] = "Level";
+	roomsdataArray[0][5] = "Room type";	roomsdataArray[0][6] = "Rent days";
+	roomsdataArray[0][7] = "Room price"; roomsdataArray[0][8] = "Guest name";
+	roomsdataArray[0][9] = "Guest ID";*/
+	for (int i = 1; i <= 50; i++) {
+		for (int cols = 0; cols < 20; cols++) {
+			getline(database, info);
+			if (entryDatabase[0][cols + 1] == "Availability") {
+				if (info[cols] != '|') {
+					int tempint; string tempstr; tempstr[0] = info[cols];
+					tempint = stringToInt(tempstr);
+					r[i - 1].set_availability(tempint);
+				}
+				if(entryDatabase)
+				if (info[cols] == '|') {
+					continue;
+				}
+			}
+		}
+	}
 }
 void addToDatabase(string roomNumber, string typeOfNote, string value, string databaseToModify[51][20]);
 void add_furniture(Rooms r[50], string id){
