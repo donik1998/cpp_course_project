@@ -7,12 +7,19 @@ using namespace std;
 Rooms rooms[50];
 
 int main() {
-	database.open("Database.txt", ios::in);
+	roomDatabasefile.open("RoomsDatabase.txt", ios::in);
+	featuresDatabaseFile.open("FeaturesDatabase.txt", ios::in);
 	//initialize(roomsDatabase, featuresDatabase);
-	//initializeFromDatabase(rooms, roomsDatabase);
 	string str = "23", tempCommands, commands;
-	getline(database, commands); getline(database, commands);
-	cout << commands[1] << endl;
+	for (int i = 0; i < 49; i++) { getline(roomDatabasefile, commands); }
+	cout << "Commands are\n" << commands << endl << "And it lenght is " << commands.length() << endl;
+	for (int i = 0; i < commands.length(); i++) {
+		if (commands[i] == '|') {
+			cout << "Char on index " << i << " is '|'\n";
+		}
+	}
+	tempCommands = getColumnInfo(commands, (indexesOfRows[4]));
+	cout << "Tempcommands is " << tempCommands << endl;
 	time(&rawtime);
 	bool ordinalPricePrint = false, advPricePrint = false, luxPricePrint = false, advLuxPricePrint = false;
 	int addDays, main_menu_choice = 1, guestChoice = 1, room_choice = 1, numofguest;

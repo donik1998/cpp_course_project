@@ -6,9 +6,7 @@
 using namespace std;
 
 //variables
-fstream loging;
-fstream receipt;
-fstream database;
+fstream loging, receipt, roomDatabasefile, featuresDatabaseFile;
 time_t rawtime;
 struct tm *timeinfo;
 char accepted; int stayDays;
@@ -20,9 +18,23 @@ string services_name[7] = { "Morning meal", "Laundry", "Additional cleaning", "G
 float eq_rent_price[4] = { 15.59, 10.25, 20.85, 45.0 };
 float fur_rent_price[4] = { 9.85, 16.60, 12.20, 45.50 };
 float serv_price[7] = { 13.45, 14.50, 11.5, 21.5, 35.50, 49.99, 15.85 };
-string roomsDatabase[51][20], featuresDatabase[51][20];
+string roomsDatabase[51][20];
+bool featuresDatabase[50][20];
+int indexesOfRows[8] = { 0,2,4,6,8,16,18,28 };
+int indexesOfColumns[10] = { 0,13,22,29,35,45,55,66,77,86 };//array of indexes where '|' stays in columns
 //variables
 
+/*
+	******************HINTS**************************
+	featuresArray[0][1] = furniture_name[0]; featuresArray[0][2] = furniture_name[1];
+	featuresArray[0][3] = furniture_name[2]; featuresArray[0][4] = furniture_name[3];
+	featuresArray[0][5] = equipment_name[0]; featuresArray[0][6] = equipment_name[1];
+	featuresArray[0][7] = equipment_name[2]; featuresArray[0][8] = equipment_name[3];
+	featuresArray[0][9] = services_name[0]; featuresArray[0][10] = services_name[1];
+	featuresArray[0][11] = services_name[2]; featuresArray[0][12] = services_name[3];
+	featuresArray[0][13] = services_name[4]; featuresArray[0][14] = services_name[5];
+	featuresArray[0][15] = services_name[6];
+	*/
 //classes
 class Guest{
 private:
@@ -218,26 +230,44 @@ public:
 };
 //classes
 
+//functions declaration
+void addToDatabase(string roomNumber, string typeOfNote, string value, string databaseToModify[51][20]);
+int stringToInt(string entry);
+void initialize(string roomsdataArray[51][20], bool featuresArray[51][20]);
+void add_furniture(Rooms r[50], string id);
+void add_equipment(Rooms r[50], string id);
+void add_services(Rooms r[50], string id);
+void add_features(Rooms r[50], string id);
+void bill(Rooms r[50], string id);
+string CheckMyString(string entry);
+void GuestRegister(Rooms r[50], int NumberOfGuests, string RoomType);
+string getColumnInfo(string allColumns, int startingIndex);
+void addToDatabase(string roomNumber, string typeOfNote, string value, bool featuresDatabase[50][20]);
+bool stringToBoolean(string entry);
+//functions declaration
+
 //functions
+
 int stringToInt(string entry) {
 	int temp;
 	temp = stoi(entry);
 	return temp;
 }
-void initialize(string roomsdataArray[51][20], string featuresArray[51][20]) {
+bool stringToBoolean(string entry) {
+	if (entry == "false") {
+		return false;
+	}
+	else if (entry == "true") {
+		return true;
+	}
+	else { cout << "Wrong entry value!!!\n"; }
+}
+void initialize(string roomsdataArray[51][20], bool featuresArray[51][20]) {
 	roomsdataArray[0][1] = "Availability"; roomsdataArray[0][2] = "Capacity";
 	roomsdataArray[0][3] = "Number"; roomsdataArray[0][4] = "Level";
 	roomsdataArray[0][5] = "Room type";	roomsdataArray[0][6] = "Rent days";
 	roomsdataArray[0][7] = "Room price"; roomsdataArray[0][8] = "Guest name";
 	roomsdataArray[0][9] = "Guest ID";
-	featuresArray[0][1] = furniture_name[0]; featuresArray[0][2] = furniture_name[1];
-	featuresArray[0][3] = furniture_name[2]; featuresArray[0][4] = furniture_name[3];
-	featuresArray[0][5] = equipment_name[0]; featuresArray[0][6] = equipment_name[1];
-	featuresArray[0][7] = equipment_name[2]; featuresArray[0][8] = equipment_name[3];
-	featuresArray[0][9] = services_name[0]; featuresArray[0][10] = services_name[1];
-	featuresArray[0][11] = services_name[2]; featuresArray[0][12] = services_name[3];
-	featuresArray[0][13] = services_name[4]; featuresArray[0][14] = services_name[5];
-	featuresArray[0][15] = services_name[6];
 	//loop to initialize room's database
 	for (int a = 1; a < 51; a++) {
 		for (int i = 1; i <= 20; i++) {
@@ -262,7 +292,7 @@ void initialize(string roomsdataArray[51][20], string featuresArray[51][20]) {
 					roomsdataArray[a][i] = to_string(0);
 				}
 				if (roomsdataArray[0][i] == "Room price") {
-					roomsdataArray[a][i] = to_string(12.5);
+					roomsdataArray[a][i] = to_string(12);
 				}
 				if (roomsdataArray[0][i] == "Guest name") {
 					roomsdataArray[a][i] = "\0";
@@ -393,97 +423,19 @@ void initialize(string roomsdataArray[51][20], string featuresArray[51][20]) {
 			}
 		}
 	}
-	//loop to initialize features database
-	database << "Rooms database\n";
-	for (int i = 1; i < 51; i++) {
-		for (int j = 1; j <= 20; j++) {
-			if (featuresArray[0][j] == furniture_name[0]) {
-				featuresArray[i][j] = to_string(false);
-			}
-			if (featuresArray[0][j] == furniture_name[1]) {
-				featuresArray[i][j] = to_string(false);
-			}
-			if (featuresArray[0][j] == furniture_name[2]) {
-				featuresArray[i][j] = to_string(false);
-			}
-			if (featuresArray[0][j] == furniture_name[3]) {
-				featuresArray[i][j] = to_string(false);
-			}
-			if (featuresArray[0][j] == equipment_name[0]) {
-				featuresArray[i][j] = to_string(false);
-			}
-			if (featuresArray[0][j] == equipment_name[1]) {
-				featuresArray[i][j] = to_string(false);
-			}
-			if (featuresArray[0][j] == equipment_name[2]) {
-				featuresArray[i][j] = to_string(false);
-			}
-			if (featuresArray[0][j] == equipment_name[3]) {
-				featuresArray[i][j] = to_string(false);
-			}
-			if (featuresArray[0][j] == services_name[0]) {
-				featuresArray[i][j] = to_string(false);
-			}
-			if (featuresArray[0][j] == services_name[1]) {
-				featuresArray[i][j] = to_string(false);
-			}
-			if (featuresArray[0][j] == services_name[2]) {
-				featuresArray[i][j] = to_string(false);
-			}
-			if (featuresArray[0][j] == services_name[3]) {
-				featuresArray[i][j] = to_string(false);
-			}
-			if (featuresArray[0][j] == services_name[4]) {
-				featuresArray[i][j] = to_string(false);
-			}
-			if (featuresArray[0][j] == services_name[5]) {
-				featuresArray[i][j] = to_string(false);
-			}
-			if (featuresArray[0][j] == services_name[6]) {
-				featuresArray[i][j] = to_string(false);
-			}
-		}
-	}
 	for (int i = 0; i <= 50; i++) {
 		for (int j = 0; j <= 20; j++) {
-			database << roomsdataArray[i][j] << "|";
+			roomDatabasefile << roomsdataArray[i][j] << "|";
 		}
-		database << endl;
+		roomDatabasefile << endl;
 	}
-	database << "Features database\n";
-	for (int i = 0; i <= 50; i++) {
-		for (int j = 0; j <= 20; j++) {
-			database << featuresArray[i][j] << "|";
+	for (int i = 0; i < 50; i++) {
+		for (int j = 0; j < 20; j++) {
+			featuresDatabaseFile << featuresArray[i][j] << "|";
 		}
-		database << endl;
-	}
-}
-void initializeFromDatabase(Rooms r[50], string entryDatabase[51][20]) {
-	string info, tempstr, tempCommands, commands; int tempint;
-	getline(database, commands); getline(database, commands);
-	/*roomsdataArray[0][1] = "Availability"; roomsdataArray[0][2] = "Capacity";
-	roomsdataArray[0][3] = "Number"; roomsdataArray[0][4] = "Level";
-	roomsdataArray[0][5] = "Room type";	roomsdataArray[0][6] = "Rent days";
-	roomsdataArray[0][7] = "Room price"; roomsdataArray[0][8] = "Guest name";
-	roomsdataArray[0][9] = "Guest ID";*/
-	for (int i = 1; i <= 50; i++) {
-		for (int cols = 0; cols < 20; cols++) {
-			getline(database, info);
-			if (entryDatabase[0][cols + 1] == "Availability") {
-				if (info[cols] != '|') {
-					int tempint; string tempstr; tempstr[0] = info[cols];
-					tempint = stringToInt(tempstr);
-					r[i - 1].set_availability(tempint);
-				}
-				if(entryDatabase)
-				if (info[cols] == '|') {
-					continue;
-				}
-			}
-		}
+		featuresDatabaseFile << endl;
 	}
 }
-void addToDatabase(string roomNumber, string typeOfNote, string value, string databaseToModify[51][20]);
 void add_furniture(Rooms r[50], string id){
 	int counter = 1, furnutire_choice = 1;
 	bool found;
@@ -844,19 +796,61 @@ void GuestRegister(Rooms r[50], int NumberOfGuests, string RoomType) {
 		}
 	}
 }
-void addToDatabase(string roomNumber, string typeOfNote, string value, string databaseToModify[51][20]) {
+void addToDatabase(string roomNumber, string typeOfNote, string value, string roomDatabase[51][20]) {
 	for (int i = 1; i <= 50; i++) {
 		for (int j = 1; j <= 20; j++) {
-			if (databaseToModify[0][i] == typeOfNote && to_string(i) == roomNumber) {
-				databaseToModify[i][j] = value;
+			if (roomDatabase[0][i] == typeOfNote && to_string(i) == roomNumber) {
+				roomDatabase[i][j] = value;
 			}
 		}
 	}
 	for (int i = 1; i <= 50; i++) {
 		for (int j = 1; j <= 20; j++) {
-			database << databaseToModify[i][j];
+			roomDatabasefile << roomDatabase[i][j];
 		}
-		database << endl;
+		roomDatabasefile << endl;
+	}
+}
+void addToDatabase(string roomNumber, string typeOfNote, string value, bool featuresDatabase[50][20]) {
+	for (int i = 0; i < 50; i++) {
+		for (int j = 0; j < 20; j++) {
+			if (to_string(i) == roomNumber) {
+				featuresDatabase[i][j] = stringToBoolean(value);
+			}
+		}
+	}
+	for (int i = 0; i < 50; i++) {
+		for (int j = 0; j < 50; j++) {
+			featuresDatabaseFile << featuresDatabase[i][j];
+		}
+		featuresDatabaseFile << endl;
+	}
+}
+string getColumnInfo(string allColumns, int startingIndex) {
+	string currentCommand; currentCommand.clear(); currentCommand.resize(13);
+	int tempCounter = currentCommand.length() - 1;
+	for (int i = startingIndex + 1; i < allColumns.length(); i++) {
+		if (allColumns[i] == '|') {
+			break;
+		}
+		else {
+			while (tempCounter >= 0) {
+				currentCommand[tempCounter] = allColumns[i];
+				break;
+			}
+			tempCounter--;
+		}
+	}
+	reverse(currentCommand.begin(), currentCommand.end());
+	return currentCommand;
+}
+void initializeFromDatabase(string roomData[51][20]) {
+	string currentEntries;
+	for (int i = 0; i < 50; i++) {
+		getline(roomDatabasefile, currentEntries);
+		for (int j = 0; j < 20; j++) {
+			
+		}
 	}
 }
 //functions
