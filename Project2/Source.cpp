@@ -7,19 +7,9 @@ using namespace std;
 Rooms rooms[50];
 
 int main() {
-	roomDatabasefile.open("RoomsDatabase.txt", ios::in);
-	featuresDatabaseFile.open("FeaturesDatabase.txt", ios::in);
-	//initialize(roomsDatabase, featuresDatabase);
-	string str = "23", tempCommands, commands;
-	for (int i = 0; i < 49; i++) { getline(roomDatabasefile, commands); }
-	cout << "Commands are\n" << commands << endl << "And it lenght is " << commands.length() << endl;
-	for (int i = 0; i < commands.length(); i++) {
-		if (commands[i] == '|') {
-			cout << "Char on index " << i << " is '|'\n";
-		}
-	}
-	tempCommands = getColumnInfo(commands, (indexesOfRows[4]));
-	cout << "Tempcommands is " << tempCommands << endl;
+	initializeFeaturesDatabaseFromFile(featuresDatabase);
+	initializeRoomDatabaseFromFile(roomsDatabase);	
+	initializeRoomsArray(rooms, roomsDatabase, featuresDatabase);
 	time(&rawtime);
 	bool ordinalPricePrint = false, advPricePrint = false, luxPricePrint = false, advLuxPricePrint = false;
 	int addDays, main_menu_choice = 1, guestChoice = 1, room_choice = 1, numofguest;
@@ -182,15 +172,15 @@ int main() {
 			}
 			cout << "\t\t\tFurniture" << endl;
 			for (int i = 0; i < 4; i++) {
-				cout << furniture_name[i] << ": " << fur_rent_price[i] << "$" << endl;
+				cout << fur_name[i] << ": " << fur_rent_price[i] << "$" << endl;
 			}
 			cout << "\t\t\tEquipment" << endl;
 			for (int i = 0; i < 4; i++) {
-				cout << equipment_name[i] << ": " << eq_rent_price[i] << "$" << endl;
+				cout << eq_name[i] << ": " << eq_rent_price[i] << "$" << endl;
 			}
 			cout << "\t\t\tServices" << endl;
 			for (int i = 0; i < 7; i++) {
-				cout << services_name[i] << ": " << serv_price[i] << "$" << endl;
+				cout << serv_name[i] << ": " << serv_price[i] << "$" << endl;
 			}
 			cout << "Note: payment for each extra services or gear is charged once only" << endl;
 			break;
