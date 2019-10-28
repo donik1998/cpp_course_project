@@ -216,9 +216,8 @@ public:
 };
 class Rooms : public virtual Guest, public virtual Conveniences, public virtual Additional_Services{
 private:
-	int room_level, room_number, capacity, rent_days;
+	int room_level, room_number, capacity, rent_days, room_price;
 	string room_type;
-	float room_price;
 	bool availability;
 public:
 	void set_roomlevel(int lvl){
@@ -271,7 +270,6 @@ public:
 //classes
 
 //functions declaration
-void addToDatabase(string roomNumber, string typeOfNote, string value, string databaseToModify[51][20]);
 int stringToInt(string entry);
 void initialize(string roomsdataArray[51][20], bool featuresArray[50][16]);
 void add_furniture(Rooms r[50], string id);
@@ -282,16 +280,19 @@ void bill(Rooms r[50], string id);
 string CheckMyString(string entry);
 void GuestRegister(Rooms r[50], int NumberOfGuests, string RoomType);
 string getColumnInfo(string allColumns, int startingPoint);
-void addToDatabase(string roomNumber, string typeOfNote, string value, bool featuresDatabase[50][16]);
 bool stringToBoolean(char entry);
 int resizeRate(int currentCol, string entry);
 void initializeRoomDatabaseFromFile(string roomData[51][20]);
 void initializeFeaturesDatabaseFromFile(bool featuresData[50][16]);
 char getBooleanColumnInfo(string allColumns, int columnnumber);
 string getCleanBooleans(string entry);
+void addToDatabase(Rooms r[50], string roomDatabase[51][20]);
+string booleanToString(bool entry);
+
 //functions declaration
 
 //functions
+
 
 int stringToInt(string entry) {
 	int temp;
@@ -306,6 +307,10 @@ bool stringToBoolean(char entry) {
 		return true;
 	}
 	else { cout << "Wrong entry value!!!\n"; }
+}
+string booleanToString(bool entry) {
+	if (entry == true) { return "1"; }
+	else { return"0"; }
 }
 int resizeRate(int currentCol, string entry) {
 	int resizeValue = 0, currCol = currentCol;
@@ -843,10 +848,7 @@ void GuestRegister(Rooms r[50], int NumberOfGuests, string RoomType) {
 				loging.open("Data.txt", ios::ate | ios::out);
 				loging << ctime(&rawtime) << ": " << full_name << " is registered in room number " << r[i].get_room_number() << " for " << stayDays << " days" << endl;
 				loging.close();
-				addToDatabase(to_string(i + 1), "Availability", to_string(false), roomsDatabase);
-				addToDatabase(to_string(i + 1), "Rent days", to_string(stayDays), roomsDatabase);
-				addToDatabase(to_string(i + 1), "Guest ID", id, roomsDatabase);
-				addToDatabase(to_string(i + 1), "Guest name", full_name, roomsDatabase);
+				addToDatabase(r, roomsDatabase);
 				break;
 			}
 			else if (accepted == 'n' || accepted == 'N') {
@@ -859,35 +861,66 @@ void GuestRegister(Rooms r[50], int NumberOfGuests, string RoomType) {
 		}
 	}
 }
-void addToDatabase(string roomNumber, string typeOfNote, string value, string roomDatabase[51][20]) {
+void addToDatabase(Rooms r[50], string roomDatabase[51][20]) {
+	roomDatabasefile.open("RoomsTest.txt", ios::out);
 	for (int i = 1; i <= 50; i++) {
-		for (int j = 1; j <= 20; j++) {
-			if (roomDatabase[0][i] == typeOfNote && to_string(i) == roomNumber) {
-				roomDatabase[i][j] = value;
+		for (int j = 1; j < 10; j++) {
+			switch (j) {
+				//Availability
+			case(1): {
+				roomDatabase[i][j] = booleanToString(r[i].get_availability());
+				break;
+			}
+				//Capacity
+			case(2): {
+				roomDatabase[i][j] = to_string(r[i].get_capacity());
+				break;
+			}
+				//Number
+			case(3): {
+				roomDatabase[i][j] = to_string(r[i].get_room_number());
+				break;
+			}
+				//level
+			case(4): {
+				roomDatabase[i][j] = to_string(r[i].get_roomlvl());
+				break;
+			}
+				//room type
+			case(5): {
+				roomDatabase[i][j] = r[i].get_room_type();
+				break;
+			}
+				//rent days
+			case(6): {
+				roomDatabase[i][j] = to_string(r[i].get_days_stayed());
+				break;
+			}
+				//room price
+			case(7): {
+				roomDatabase[i][j] = to_string(r[i].get_room_price());
+				break;
+			}
+				//guest name
+			case(8): {
+				roomDatabase[i][j] = r[i].get_guest_name();
+				break;
+			}
+				//guest ID
+			case(9): {
+				roomDatabase[i][j] = r[i].get_guest_identification();
+				break;
+			}
 			}
 		}
 	}
 	for (int i = 1; i <= 50; i++) {
 		for (int j = 1; j <= 20; j++) {
-			roomDatabasefile << roomDatabase[i][j];
+			roomDatabasefile << roomDatabase[i - 1][j - 1] << "|";
 		}
 		roomDatabasefile << endl;
 	}
-}
-void addToDatabase(string roomNumber, string typeOfNote, string value, bool featuresDatabase[50][16]) {
-	for (int i = 0; i < 50; i++) {
-		for (int j = 0; j < 16; j++) {
-			if (to_string(i) == roomNumber) {
-				featuresDatabase[i][j] = stringToBoolean(value[0]);
-			}
-		}
-	}
-	for (int i = 0; i < 50; i++) {
-		for (int j = 0; j < 16; j++) {
-			featuresDatabaseFile << featuresDatabase[i][j];
-		}
-		featuresDatabaseFile << endl;
-	}
+	roomDatabasefile.close();
 }
 string getColumnInfo(string allColumns, int columnNumber) {
 	string currentCommand;

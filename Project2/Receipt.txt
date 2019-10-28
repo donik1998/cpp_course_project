@@ -1,6 +1,7 @@
 			Payment details
-Room for 4 days: 600$
-Morning meal: 13.45$
-Name: qwe rr
-Amount: 613.45$
+Room for 7 days: 350$
+Comode: 9.85$
+TV: 15.59$
+Name: dfdf erert
+Amount: 375.44$
 **********Thank you for choosing us**********
