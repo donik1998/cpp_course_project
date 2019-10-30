@@ -256,10 +256,10 @@ public:
 	bool get_availability(){
 		return availability;
 	}
-	void set_room_price(float price){
+	void set_room_price(int price){
 		room_price = price;
 	}
-	float get_room_price(){
+	int get_room_price(){
 		return room_price;
 	}
 	~Rooms(){
@@ -992,36 +992,38 @@ void initializeFeaturesDatabaseFromFile(bool featuresData[50][16]) {
 void initializeRoomsArray(Rooms r[50], string roomData[51][20], bool featuresData[50][16]) {
 	//to initialize rooms data
 	for (int i = 0; i < 50; i++) {
-		for (int j = 0; j < 9; j++) {
-			if (roomData[0][j + 1] == "Availability") {
-				r[i].set_availability(stringToBoolean(roomData[i + 1][j + 1][0]));
-			}
-			else if (roomData[0][j + 1] == "Capacity") {
-				r[i].set_capacity(stringToInt(roomData[i + 1][j + 1]));
-			}
-			else if (roomData[0][j + 1] == "Number") {
-				r[i].set_roomNumber(stringToInt(roomData[i + 1][j + 1]));
-			}
-			else if (roomData[0][j + 1] == "Level") {
-				r[i].set_roomlevel(stringToInt(roomData[i + 1][j + 1]));
-			}
-			else if (roomData[0][j + 1] == "Room type") {
-				r[i].set_room_type(roomData[i + 1][j + 1]);
-			}
-			else if (roomData[0][j + 1] == "Rent days") {
-				r[i].set_rent_days(stringToInt(roomData[i + 1][j + 1]));
-			}
-			else if (roomData[0][j + 1] == "Room price") {
-				r[i].set_room_price(stringToInt(roomData[i + 1][j + 1]));
-			}
-			else if (roomData[0][j + 1] == "Guest name") {
-				r[i].set_guest_name(roomData[i + 1][j + 1]);
-			}
-			else if (roomData[0][j + 1] == "Guest ID") {
-				r[i].set_guest_identification(roomData[i + 1][j + 1]);
-			}
-			else {
-				cout << "Couldn't find corresponding information\n";
+		for (int j = 1; j <= 50; j++) {
+			for (int a = 1; a <= 9; a++) {
+				if (roomData[0][a] == "Availability") {
+					r[i].set_availability(stringToBoolean(roomData[j][a][0]));
+				}
+				else if (roomData[0][a] == "Capacity") {
+					r[i].set_capacity(stringToInt(roomData[j][a]));
+				}
+				else if (roomData[0][a] == "Number") {
+					r[i].set_roomNumber(stringToInt(roomData[j][a]));
+				}
+				else if (roomData[0][a] == "Level") {
+					r[i].set_roomlevel(stringToInt(roomData[j][a]));
+				}
+				else if (roomData[0][a] == "Room type") {
+					r[i].set_room_type(roomData[j][a]);
+				}
+				else if (roomData[0][a] == "Rent days") {
+					r[i].set_rent_days(stringToInt(roomData[j][a]));
+				}
+				else if (roomData[0][a] == "Room price") {
+					r[i].set_room_price(stringToInt(roomData[j][a]));
+				}
+				else if (roomData[0][a] == "Guest name") {
+					r[i].set_guest_name(roomData[j][a]);
+				}
+				else if (roomData[0][a] == "Guest ID") {
+					r[i].set_guest_identification(roomData[j][a]);
+				}
+				else {
+					cout << "Couldn't find corresponding information\n";
+				}
 			}
 		}
 	}
