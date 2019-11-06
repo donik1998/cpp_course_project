@@ -5,35 +5,42 @@
 #include<ctime>
 using namespace std;
 Rooms rooms[50];
-
-int main() {
-	initializeFeaturesDatabaseFromFile(featuresDatabase);
-	initializeRoomDatabaseFromFile(roomsDatabase);
-	initializeRoomsArray(rooms, roomsDatabase, featuresDatabase);
-	for (int i = 0; i <= 50; i++) {
+void test() {
+	cout << "Rooms database\n";
+	for (int i = 0; i < 51; i++) {
 		for (int j = 0; j < 10; j++) {
 			cout << "row " << i << " col " << j << endl;
 			cout << roomsDatabase[0][j] << " is " << roomsDatabase[i][j] << endl;
 		}
 		cout << endl;
 	}
+	cout << "Features database\n";
 	for (int i = 0; i <= 50; i++) {
-		for (int j = 0; j < 10; j++) {
+		for (int j = 0; j < 16; j++) {
 			cout << "row " << i << " col " << j << endl;
 			cout << featuresDatabase[0][j] << " is " << featuresDatabase[i][j] << endl;
 		}
 		cout << endl;
 	}
+	cout << "Rooms array\n";
 	for (int i = 0; i < 50; i++) {
+		cout << "i is " << i << endl;
 		cout << "Availability is " << rooms[i].get_availability() << endl;
 		cout << "Capacity is " << rooms[i].get_capacity() << endl;
 		cout << "Number is " << rooms[i].get_room_number() << endl;
 		cout << "Level is " << rooms[i].get_roomlvl() << endl;
 		cout << "Type is " << rooms[i].get_room_type() << endl;
+		cout << "Days stayed is " << rooms[i].get_rent_days() << endl;
 		cout << "Price " << rooms[i].get_room_price() << endl;
 		cout << "Guest name is " << rooms[i].get_guest_name() << endl;
 		cout << "Guest ID is " << rooms[i].get_guest_identification() << endl;
 	}
+}
+int main() {
+	initializeFeaturesDatabaseFromFile(featuresDatabase);
+	initializeRoomDatabaseFromFile(roomsDatabase);
+	initializeRoomsArray(rooms, roomsDatabase, featuresDatabase);
+	test();
 	time(&rawtime);
 	bool ordinalPricePrint = false, advPricePrint = false, luxPricePrint = false, advLuxPricePrint = false;
 	int addDays, main_menu_choice = 1, guestChoice = 1, room_choice = 1, numofguest;
@@ -42,11 +49,16 @@ int main() {
 		cout << "\nYour choice: "; cin >> main_menu_choice;
 		switch (main_menu_choice) {
 			//room booking
-			case(1): {system("cls");
+		case(1): {system("cls");
 			cout << "We offer following king of rooms available" << endl;
 			cout << "But first, we need to know how many are you? "; cin >> numofguest;
-			while (numofguest <= 0) {
-				cout << "Wrong input! Type number of guests again\nNumber of guests: "; cin >> numofguest;
+			while (true) {
+				if (!cin >> numofguest) {
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					cout << "Wrong input! Type number of guests again\nNumber of guests: "; cin >> numofguest;
+				}
+				else { break; }
 			}
 			for (int i = 0; i < 50; i++) {
 				if (rooms[i].get_capacity()>=numofguest && rooms[i].get_availability() == true && rooms[i].get_room_type() == "Ordinal" && ordinalPricePrint == false) {
@@ -218,6 +230,8 @@ int main() {
 				if (rooms[i].get_guest_identification() == id) {
 					foundid = true;
 					bill(rooms, id);
+					removeFromRoomsDatabase(rooms, roomsDatabase, i);
+					removeFromFeaturesDatabase(rooms, featuresDatabase, i);
 				}
 				else {
 					continue;
@@ -230,6 +244,7 @@ int main() {
 				cout << "Unfortunately, we were unable to fing your id.\nTry again\n";
 			}
 			receipt.close();
+			test();
 			break;
 		}
 			//login system with additional possibilities

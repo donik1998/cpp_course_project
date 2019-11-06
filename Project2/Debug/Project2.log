@@ -2,15 +2,15 @@
 c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(19): warning C4305: инициализация: усечение из "double" в "float"
 c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(20): warning C4305: инициализация: усечение из "double" в "float"
 c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(21): warning C4305: инициализация: усечение из "double" в "float"
-c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(317): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(814): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(930): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(943): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(954): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(1050): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(1051): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(310): warning C4715: stringToBoolean: значение возвращается не при всех путях выполнения
-c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(171): warning C4715: Conveniences::get_equipment_status: значение возвращается не при всех путях выполнения
-c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(215): warning C4715: Additional_Services::get_service_status: значение возвращается не при всех путях выполнения
-c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(150): warning C4715: Conveniences::get_furniture_status: значение возвращается не при всех путях выполнения
+c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(332): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(819): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(929): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(942): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(953): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(1053): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(1054): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(325): warning C4715: stringToBoolean: значение возвращается не при всех путях выполнения
+c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(140): warning C4715: Conveniences::get_furniture_status: значение возвращается не при всех путях выполнения
+c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(161): warning C4715: Conveniences::get_equipment_status: значение возвращается не при всех путях выполнения
+c:\users\doniyor\documents\github\cpp_course_project\project2\functions and classes.h(205): warning C4715: Additional_Services::get_service_status: значение возвращается не при всех путях выполнения
   Project2.vcxproj -> C:\Users\Doniyor\Documents\GitHub\cpp_course_project\Debug\Project2.exe

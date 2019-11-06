@@ -80,17 +80,7 @@ public:
 class Guest{
 private:
 	string guest_name, guest_identification_number;
-	int daysStayed = 0;
 public:
-	void set_days_stayed(int days) {
-		daysStayed = days;
-	}
-	int get_days_stayed() {
-		return daysStayed;
-	}
-	void addDaysStayed(int add_days) {
-		daysStayed += add_days;
-	}
 	void set_guest_name(string name){
 		guest_name = name;
 	}
@@ -220,6 +210,9 @@ private:
 	string room_type;
 	bool availability;
 public:
+	void addDaysStayed(int add_days) {
+		rent_days += add_days;
+	}
 	void set_roomlevel(int lvl){
 		room_level = lvl;
 	}
@@ -286,14 +279,36 @@ void initializeRoomDatabaseFromFile(string roomData[51][20]);
 void initializeFeaturesDatabaseFromFile(bool featuresData[50][16]);
 char getBooleanColumnInfo(string allColumns, int columnnumber);
 string getCleanBooleans(string entry);
-void addToDatabase(Rooms r[50], string roomDatabase[51][20]);
+void addToDatabase(Rooms r[50], string roomDatabase[51][20], int indexOfObject);
 string booleanToString(bool entry);
+void pushToRoomsDatabase(string roomData[51][20]);
+void pushToFeaturesDatabase(bool featuresData[50][16]);
+void removeFromRoomsDatabase(Rooms r[50], string roomData[51][20], int indexOfObjects);
 
 //functions declaration
 
 //functions
 
-
+void pushToRoomsDatabase(string roomData[51][20]) {
+	roomDatabasefile.open("RoomsDatabase.txt", ios::out);
+	for (int i = 0; i <= 50; i++) {
+		for (int j = 0; j < 20; j++) {
+			roomDatabasefile << roomData[i][j] << "|";
+		}
+		roomDatabasefile << endl;
+	}
+	roomDatabasefile.close();
+}
+void pushToFeaturesDatabase(bool featuresData[50][16]) {
+	featuresDatabaseFile.open("FeaturesDatabase.txt", ios::out);
+	for (int i = 0; i < 50; i++) {
+		for (int j = 0; j < 16; j++) {
+			featuresDatabaseFile << featuresData[i][j] << "|";
+		}
+		featuresDatabaseFile << endl;
+	}
+	featuresDatabaseFile.close();
+}
 int stringToInt(string entry) {
 	int temp;
 	temp = stoi(entry);
@@ -490,19 +505,9 @@ void initialize(string roomsdataArray[51][20], bool featuresArray[50][16]) {
 		}
 	}
 	//output rooms data to file
-	for (int i = 0; i <= 50; i++) {
-		for (int j = 0; j <= 20; j++) {
-			roomDatabasefile << roomsdataArray[i][j] << "|";
-		}
-		roomDatabasefile << endl;
-	}
+	pushToRoomsDatabase(roomsdataArray);
 	//output features data to file
-	for (int i = 0; i < 50; i++) {
-		for (int j = 0; j < 16; j++) {
-			featuresDatabaseFile << featuresArray[i][j] << "|";
-		}
-		featuresDatabaseFile << endl;
-	}
+	pushToFeaturesDatabase(featuresArray);
 }
 void add_furniture(Rooms r[50], string id){
 	int counter = 1, furnutire_choice = 1;
@@ -778,10 +783,10 @@ void bill(Rooms r[50], string id) {
 				GlobalBill = true;
 				cout << "Alright! " << r[i].get_guest_name() << endl;
 				tempName = r[i].get_guest_name();
-				cout << "You have lived in " << r[i].get_room_type() << " number " << r[i].get_room_number() << " on " << r[i].get_roomlvl() << " floor for " << r[i].get_days_stayed() << " days" << endl;
-				cout << "It costs " << r[i].get_room_price() << "$ per day. So you have to pay " << r[i].get_days_stayed()*r[i].get_room_price() << "$ for room rent" << endl;
-				total += (r[i].get_days_stayed()*r[i].get_room_price());
-				receipt << "Room for " << r[i].get_days_stayed() << " days: " << total << "$" << endl;
+				cout << "You have lived in " << r[i].get_room_type() << " number " << r[i].get_room_number() << " on " << r[i].get_roomlvl() << " floor for " << r[i].get_rent_days() << " days" << endl;
+				cout << "It costs " << r[i].get_room_price() << "$ per day. So you have to pay " << r[i].get_rent_days()*r[i].get_room_price() << "$ for room rent" << endl;
+				total += (r[i].get_rent_days()*r[i].get_room_price());
+				receipt << "Room for " << r[i].get_rent_days() << " days: " << total << "$" << endl;
 				for (int j = 0; j < 4; j++) {
 					if (r[i].get_furniture_status(fur_name[j]) == true) {
 						cout << "You also rented " << fur_name[j] << " for " << fur_rent_price[j] << "$" << endl;
@@ -842,13 +847,13 @@ void GuestRegister(Rooms r[50], int NumberOfGuests, string RoomType) {
 				cout << "OK! " << r[i].get_room_type() << " room number " << r[i].get_room_number() << " is reserved for "
 					<< full_name << " for " << stayDays << " days" << endl;
 				r[i].set_availability(false);
-				r[i].set_days_stayed(stayDays);
+				r[i].set_rent_days(stayDays);
 				r[i].set_guest_identification(id);
 				r[i].set_guest_name(full_name);
 				loging.open("Data.txt", ios::ate | ios::out);
 				loging << ctime(&rawtime) << ": " << full_name << " is registered in room number " << r[i].get_room_number() << " for " << stayDays << " days" << endl;
 				loging.close();
-				addToDatabase(r, roomsDatabase);
+				addToDatabase(r, roomsDatabase, i);
 				break;
 			}
 			else if (accepted == 'n' || accepted == 'N') {
@@ -861,65 +866,59 @@ void GuestRegister(Rooms r[50], int NumberOfGuests, string RoomType) {
 		}
 	}
 }
-void addToDatabase(Rooms r[50], string roomDatabase[51][20]) {
-	roomDatabasefile.open("RoomsTest.txt", ios::out);
-	for (int i = 1; i <= 50; i++) {
-		for (int j = 1; j < 10; j++) {
-			switch (j) {
-				//Availability
-			case(1): {
-				roomDatabase[i][j] = booleanToString(r[i].get_availability());
-				break;
-			}
-				//Capacity
-			case(2): {
-				roomDatabase[i][j] = to_string(r[i].get_capacity());
-				break;
-			}
-				//Number
-			case(3): {
-				roomDatabase[i][j] = to_string(r[i].get_room_number());
-				break;
-			}
-				//level
-			case(4): {
-				roomDatabase[i][j] = to_string(r[i].get_roomlvl());
-				break;
-			}
-				//room type
-			case(5): {
-				roomDatabase[i][j] = r[i].get_room_type();
-				break;
-			}
-				//rent days
-			case(6): {
-				roomDatabase[i][j] = to_string(r[i].get_days_stayed());
-				break;
-			}
-				//room price
-			case(7): {
-				roomDatabase[i][j] = to_string(r[i].get_room_price());
-				break;
-			}
-				//guest name
-			case(8): {
-				roomDatabase[i][j] = r[i].get_guest_name();
-				break;
-			}
-				//guest ID
-			case(9): {
-				roomDatabase[i][j] = r[i].get_guest_identification();
-				break;
-			}
-			}
+void addToDatabase(Rooms r[50], string roomDatabase[51][20], int indexOfObject) {
+	roomDatabasefile.open("RoomsDatabase.txt", ios::out);
+	for (int j = 1; j < 10; j++) {
+		switch (j) {
+			//Availability
+		case(1): {
+			roomDatabase[indexOfObject + 1][j] = booleanToString(r[indexOfObject].get_availability());
+			break;
 		}
-	}
-	for (int i = 1; i <= 50; i++) {
-		for (int j = 1; j <= 20; j++) {
-			roomDatabasefile << roomDatabase[i - 1][j - 1] << "|";
+			//Capacity
+		case(2): {
+			roomDatabase[indexOfObject + 1][j] = to_string(r[indexOfObject].get_capacity());
+			break;
 		}
-		roomDatabasefile << endl;
+			//Number
+		case(3): {
+			roomDatabase[indexOfObject + 1][j] = to_string(r[indexOfObject].get_room_number());
+			break;
+		}
+			//level
+		case(4): {
+			roomDatabase[indexOfObject + 1][j] = to_string(r[indexOfObject].get_roomlvl());
+			break;
+		}
+			//room type
+		case(5): {
+			roomDatabase[indexOfObject + 1][j] = r[indexOfObject].get_room_type();
+			break;
+		}
+			//rent days
+		case(6): {
+			roomDatabase[indexOfObject + 1][j] = to_string(r[indexOfObject].get_rent_days());
+			break;
+		}
+			//room price
+		case(7): {
+			roomDatabase[indexOfObject + 1][j] = to_string(r[indexOfObject].get_room_price());
+			break;
+		}
+			//guest name
+		case(8): {
+			roomDatabase[indexOfObject + 1][j] = r[indexOfObject].get_guest_name();
+			break;
+		}
+			//guest ID
+		case(9): {
+			roomDatabase[indexOfObject + 1][j] = r[indexOfObject].get_guest_identification();
+			break;
+		}
+		}
+	
 	}
+	pushToRoomsDatabase(roomDatabase);
 	roomDatabasefile.close();
 }
 string getColumnInfo(string allColumns, int columnNumber) {
@@ -991,41 +990,43 @@ void initializeFeaturesDatabaseFromFile(bool featuresData[50][16]) {
 }
 void initializeRoomsArray(Rooms r[50], string roomData[51][20], bool featuresData[50][16]) {
 	//to initialize rooms data
-	for (int i = 0; i < 50; i++) {
-		for (int j = 1; j <= 50; j++) {
-			for (int a = 1; a <= 9; a++) {
-				if (roomData[0][a] == "Availability") {
-					r[i].set_availability(stringToBoolean(roomData[j][a][0]));
-				}
-				else if (roomData[0][a] == "Capacity") {
-					r[i].set_capacity(stringToInt(roomData[j][a]));
-				}
-				else if (roomData[0][a] == "Number") {
-					r[i].set_roomNumber(stringToInt(roomData[j][a]));
-				}
-				else if (roomData[0][a] == "Level") {
-					r[i].set_roomlevel(stringToInt(roomData[j][a]));
-				}
-				else if (roomData[0][a] == "Room type") {
-					r[i].set_room_type(roomData[j][a]);
-				}
-				else if (roomData[0][a] == "Rent days") {
-					r[i].set_rent_days(stringToInt(roomData[j][a]));
-				}
-				else if (roomData[0][a] == "Room price") {
-					r[i].set_room_price(stringToInt(roomData[j][a]));
-				}
-				else if (roomData[0][a] == "Guest name") {
-					r[i].set_guest_name(roomData[j][a]);
-				}
-				else if (roomData[0][a] == "Guest ID") {
-					r[i].set_guest_identification(roomData[j][a]);
-				}
-				else {
-					cout << "Couldn't find corresponding information\n";
-				}
+	roomDatabasefile.open("RoomsDatabase.txt", ios::in);
+	featuresDatabaseFile.open("FeaturesDatabase.txt", ios::in);
+	int counter = 0;
+	for (int j = 1; j <= 50; j++) {
+		for (int a = 1; a <= 9; a++) {
+			if (roomData[0][a] == "Availability") {
+				r[counter].set_availability(stringToBoolean(roomData[j][a][0]));
+			}
+			else if (roomData[0][a] == "Capacity") {
+				r[counter].set_capacity(stringToInt(roomData[j][a]));
+			}
+			else if (roomData[0][a] == "Number") {
+				r[counter].set_roomNumber(stringToInt(roomData[j][a]));
+			}
+			else if (roomData[0][a] == "Level") {
+				r[counter].set_roomlevel(stringToInt(roomData[j][a]));
+			}
+			else if (roomData[0][a] == "Room type") {
+				r[counter].set_room_type(roomData[j][a]);
+			}
+			else if (roomData[0][a] == "Rent days") {
+				r[counter].set_rent_days(stringToInt(roomData[j][a]));
+			}
+			else if (roomData[0][a] == "Room price") { 
+				r[counter].set_room_price(stringToInt(roomData[j][a]));
+			}
+			else if (roomData[0][a] == "Guest name") { 
+				r[counter].set_guest_name(roomData[j][a]);
+			}
+			else if (roomData[0][a] == "Guest ID") {
+				r[counter].set_guest_identification(roomData[j][a]);
+			}
+			else {
+				cout << "Couldn't find corresponding information\n";
 			}
 		}
+		counter++;
 	}
 	//to initialize features data
 	for (int i = 0; i < 50; i++) {
@@ -1044,6 +1045,8 @@ void initializeRoomsArray(Rooms r[50], string roomData[51][20], bool featuresDat
 			}
 		}
 	}
+	roomDatabasefile.close();
+	featuresDatabaseFile.close();
 }
 string getCleanBooleans(string entry) {
 	int resizeValue = entry.length() / 2;
@@ -1056,6 +1059,164 @@ string getCleanBooleans(string entry) {
 	}
 	entry.resize(resizeValue);
 	return entry;
+}
+void removeFromRoomsDatabase(Rooms r[50], string roomData[51][20], int indexOfObjects) {
+	r[indexOfObjects].set_availability(1);
+	r[indexOfObjects].set_rent_days(0);
+	r[indexOfObjects].set_guest_identification("blank%");
+	r[indexOfObjects].set_guest_name("blank");
+	for (int i = 1; i < 10; i++) {
+		if (roomData[0][i] == "Availability") {
+			roomData[indexOfObjects + 1][i] = booleanToString(r[indexOfObjects].get_availability());
+		}
+		else if (roomData[0][i] == "Rent days") {
+			roomData[indexOfObjects + 1][i] = to_string(r[indexOfObjects].get_rent_days());
+		}
+		else if (roomData[0][i] == "Guest name") {
+			roomData[indexOfObjects + 1][i] = r[indexOfObjects].get_guest_name();
+		}
+		else if (roomData[0][i] == "Guest ID") {
+			roomData[indexOfObjects + 1][i] = r[indexOfObjects].get_guest_identification();
+		}
+		else { continue; }
+	}
+	pushToRoomsDatabase(roomData);
+}
+void removeFromFeaturesDatabase(Rooms r[50], bool featuresData[50][16], int indexOfObject) {
+	for (int i = 0; i < 16; i++) {
+		if (i == 0) {
+			r[indexOfObject].set_furniture_status(fur_name[0], false);
+			featuresData[indexOfObject][i] = false;
+		}
+		else if (i == 1) {
+			r[indexOfObject].set_furniture_status(fur_name[1], false);
+			featuresData[indexOfObject][i] = false;
+		}
+		else if (i == 2) {
+			r[indexOfObject].set_furniture_status(fur_name[2], false);
+			featuresData[indexOfObject][i] = false;
+		}
+		else if (i == 3) {
+			r[indexOfObject].set_furniture_status(fur_name[3], false);
+			featuresData[indexOfObject][i] = false;
+		}
+		else if (i == 4) {
+			r[indexOfObject].set_equipment_status(eq_name[0], false);
+			featuresData[indexOfObject][i] = false;
+		}
+		else if (i == 5) {
+			r[indexOfObject].set_equipment_status(eq_name[1], false);
+			featuresData[indexOfObject][i] = false;
+		}
+		else if (i == 6) {
+			r[indexOfObject].set_equipment_status(eq_name[2], false);
+			featuresData[indexOfObject][i] = false;
+		}
+		else if (i == 7) {
+			r[indexOfObject].set_equipment_status(eq_name[3], false);
+			featuresData[indexOfObject][i] = false;
+		}
+		else if (i == 8) {
+			r[indexOfObject].set_services_status(serv_name[0], false);
+			featuresData[indexOfObject][i] = false;
+		}
+		else if (i == 9) {
+			r[indexOfObject].set_services_status(serv_name[1], false);
+			featuresData[indexOfObject][i] = false;
+		}
+		else if (i == 10) {
+			r[indexOfObject].set_services_status(serv_name[2], false);
+			featuresData[indexOfObject][i] = false;
+		}
+		else if (i == 11) {
+			r[indexOfObject].set_services_status(serv_name[3], false);
+			featuresData[indexOfObject][i] = false;
+		}
+		else if (i == 12) {
+			r[indexOfObject].set_services_status(serv_name[4], false);
+			featuresData[indexOfObject][i] = false;
+		}
+		else if (i == 13) {
+			r[indexOfObject].set_services_status(serv_name[5], false);
+			featuresData[indexOfObject][i] = false;
+		}
+		else if (i == 14) {
+			r[indexOfObject].set_services_status(serv_name[6], false);
+			featuresData[indexOfObject][i] = false;
+		}
+		else {
+			cout << "!!!\n";
+		}
+	}
+	pushToFeaturesDatabase(featuresData);
+}
+void addToDatabase(Rooms r[50], bool featuresData[50][16], int indexOfObject) {
+	for (int i = 0; i < 16; i++) {
+		if (i == 0) {
+			r[indexOfObject].set_furniture_status(fur_name[0], true);
+			featuresData[indexOfObject][i] = true;
+		}
+		else if (i == 1) {
+			r[indexOfObject].set_furniture_status(fur_name[1], true);
+			featuresData[indexOfObject][i] = true;
+		}
+		else if (i == 2) {
+			r[indexOfObject].set_furniture_status(fur_name[2], true);
+			featuresData[indexOfObject][i] = true;
+		}
+		else if (i == 3) {
+			r[indexOfObject].set_furniture_status(fur_name[3], true);
+			featuresData[indexOfObject][i] = true;
+		}
+		else if (i == 4) {
+			r[indexOfObject].set_equipment_status(eq_name[0], true);
+			featuresData[indexOfObject][i] = true;
+		}
+		else if (i == 5) {
+			r[indexOfObject].set_equipment_status(eq_name[1], true);
+			featuresData[indexOfObject][i] = true;
+		}
+		else if (i == 6) {
+			r[indexOfObject].set_equipment_status(eq_name[2], true);
+			featuresData[indexOfObject][i] = true;
+		}
+		else if (i == 7) {
+			r[indexOfObject].set_equipment_status(eq_name[3], true);
+			featuresData[indexOfObject][i] = true;
+		}
+		else if (i == 8) {
+			r[indexOfObject].set_services_status(serv_name[0],true);
+			featuresData[indexOfObject][i] = true;
+		}
+		else if (i == 9) {
+			r[indexOfObject].set_services_status(serv_name[1],true);
+			featuresData[indexOfObject][i] = true;
+		}
+		else if (i == 10) {
+			r[indexOfObject].set_services_status(serv_name[2], true);
+			featuresData[indexOfObject][i] = true;
+		}
+		else if (i == 11) {
+			r[indexOfObject].set_services_status(serv_name[3], true);
+			featuresData[indexOfObject][i] = true;
+		}
+		else if (i == 12) {
+			r[indexOfObject].set_services_status(serv_name[4], true);
+			featuresData[indexOfObject][i] = true;
+		}
+		else if (i == 13) {
+			r[indexOfObject].set_services_status(serv_name[5], true);
+			featuresData[indexOfObject][i] = true;
+		}
+		else if (i == 14) {
+			r[indexOfObject].set_services_status(serv_name[6], true);
+			featuresData[indexOfObject][i] = true;
+		}
+		else {
+			cout << "!!!\n";
+		}
+	}
+	pushToFeaturesDatabase(featuresData);
 }
 
 //functions

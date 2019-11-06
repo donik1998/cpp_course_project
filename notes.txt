@@ -1,0 +1,15 @@
+remove from database *+
+	take the index of object to delete
+	clear all data fields
+	push changes to database
+add to features database *+
+	take the index of object to alter
+	add chabges in corresponding cells in database
+	push changes to database
+problems are in rooms array or rooms objects initialization
+problem is solved: bug has occured becuase of wrong structure in a file
+
+
+* - important
++ - done
+- - unfinished
