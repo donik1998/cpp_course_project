@@ -1,5 +1,5 @@
 			Payment details
-Room for 4 days: 800$
-Name: qwe rrr
-Amount: 800$
+Room for 3 days: 150$
+Name: qwerty uiop
+Amount: 150$
 **********Thank you for choosing us**********

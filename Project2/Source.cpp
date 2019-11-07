@@ -5,42 +5,11 @@
 #include<ctime>
 using namespace std;
 Rooms rooms[50];
-void test() {
-	cout << "Rooms database\n";
-	for (int i = 0; i < 51; i++) {
-		for (int j = 0; j < 10; j++) {
-			cout << "row " << i << " col " << j << endl;
-			cout << roomsDatabase[0][j] << " is " << roomsDatabase[i][j] << endl;
-		}
-		cout << endl;
-	}
-	/*cout << "Features database\n";
-	for (int i = 0; i <= 50; i++) {
-		for (int j = 0; j < 16; j++) {
-			cout << "row " << i << " col " << j << endl;
-			cout << featuresDatabase[0][j] << " is " << featuresDatabase[i][j] << endl;
-		}
-		cout << endl;
-	}*/
-	cout << "Rooms array\n";
-	for (int i = 0; i < 50; i++) {
-		cout << "i is " << i << endl;
-		cout << "Availability is " << rooms[i].get_availability() << endl;
-		cout << "Capacity is " << rooms[i].get_capacity() << endl;
-		cout << "Number is " << rooms[i].get_room_number() << endl;
-		cout << "Level is " << rooms[i].get_roomlvl() << endl;
-		cout << "Type is " << rooms[i].get_room_type() << endl;
-		cout << "Days stayed is " << rooms[i].get_rent_days() << endl;
-		cout << "Price " << rooms[i].get_room_price() << endl;
-		cout << "Guest name is " << rooms[i].get_guest_name() << endl;
-		cout << "Guest ID is " << rooms[i].get_guest_identification() << endl;
-	}
-}
+
 int main() {
 	initializeFeaturesDatabaseFromFile(featuresDatabase);
 	initializeRoomDatabaseFromFile(roomsDatabase);
 	initializeRoomsArray(rooms, roomsDatabase, featuresDatabase);
-	test();
 	time(&rawtime);
 	bool ordinalPricePrint = false, advPricePrint = false, luxPricePrint = false, advLuxPricePrint = false;
 	int addDays, main_menu_choice = 1, guestChoice = 1, room_choice = 1, numofguest;
@@ -182,7 +151,7 @@ int main() {
 			advPricePrint = false;
 			luxPricePrint = false;
 			advLuxPricePrint = false;
-			test();
+			
 			break;
 		}
 			//price list and available services
@@ -245,7 +214,6 @@ int main() {
 				cout << "Unfortunately, we were unable to fing your id.\nTry again\n";
 			}
 			receipt.close();
-			test();
 			break;
 		}
 			//login system with additional possibilities
