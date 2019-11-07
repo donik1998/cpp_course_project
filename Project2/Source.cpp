@@ -14,14 +14,14 @@ void test() {
 		}
 		cout << endl;
 	}
-	cout << "Features database\n";
+	/*cout << "Features database\n";
 	for (int i = 0; i <= 50; i++) {
 		for (int j = 0; j < 16; j++) {
 			cout << "row " << i << " col " << j << endl;
 			cout << featuresDatabase[0][j] << " is " << featuresDatabase[i][j] << endl;
 		}
 		cout << endl;
-	}
+	}*/
 	cout << "Rooms array\n";
 	for (int i = 0; i < 50; i++) {
 		cout << "i is " << i << endl;
@@ -182,6 +182,7 @@ int main() {
 			advPricePrint = false;
 			luxPricePrint = false;
 			advLuxPricePrint = false;
+			test();
 			break;
 		}
 			//price list and available services

@@ -291,12 +291,15 @@ void removeFromRoomsDatabase(Rooms r[50], string roomData[51][20], int indexOfOb
 
 void pushToRoomsDatabase(string roomData[51][20]) {
 	roomDatabasefile.open("RoomsDatabase.txt", ios::out);
-	for (int i = 0; i <= 50; i++) {
-		for (int j = 0; j < 20; j++) {
-			roomDatabasefile << roomData[i][j] << "|";
+	if (roomDatabasefile.is_open()) {
+		for (int i = 0; i <= 50; i++) {
+			for (int j = 0; j < 20; j++) {
+				roomDatabasefile << roomData[i][j] << "|";
+			}
+			roomDatabasefile << endl;
 		}
-		roomDatabasefile << endl;
 	}
+	else { cout << "Filestream is closed\n"; }
 	roomDatabasefile.close();
 }
 void pushToFeaturesDatabase(bool featuresData[50][16]) {
@@ -867,59 +870,66 @@ void GuestRegister(Rooms r[50], int NumberOfGuests, string RoomType) {
 	}
 }
 void addToDatabase(Rooms r[50], string roomDatabase[51][20], int indexOfObject) {
-	roomDatabasefile.open("RoomsDatabase.txt", ios::out);
 	for (int j = 1; j < 10; j++) {
 		switch (j) {
 			//Availability
 		case(1): {
+			cout << "This is case " << j << endl;
 			roomDatabase[indexOfObject + 1][j] = booleanToString(r[indexOfObject].get_availability());
 			break;
 		}
-			//Capacity
+				 //Capacity
 		case(2): {
+			cout << "This is case " << j << endl;
 			roomDatabase[indexOfObject + 1][j] = to_string(r[indexOfObject].get_capacity());
 			break;
 		}
-			//Number
+				 //Number
 		case(3): {
+			cout << "This is case " << j << endl;
 			roomDatabase[indexOfObject + 1][j] = to_string(r[indexOfObject].get_room_number());
 			break;
 		}
-			//level
+				 //level
 		case(4): {
+			cout << "This is case " << j << endl;
 			roomDatabase[indexOfObject + 1][j] = to_string(r[indexOfObject].get_roomlvl());
 			break;
 		}
-			//room type
+				 //room type
 		case(5): {
+			cout << "This is case " << j << endl;
 			roomDatabase[indexOfObject + 1][j] = r[indexOfObject].get_room_type();
 			break;
 		}
-			//rent days
+				 //rent days
 		case(6): {
+			cout << "This is case " << j << endl;
 			roomDatabase[indexOfObject + 1][j] = to_string(r[indexOfObject].get_rent_days());
 			break;
 		}
-			//room price
+				 //room price
 		case(7): {
+			cout << "This is case " << j << endl;
 			roomDatabase[indexOfObject + 1][j] = to_string(r[indexOfObject].get_room_price());
 			break;
 		}
-			//guest name
+				 //guest name
 		case(8): {
+			cout << "This is case " << j << endl;
 			roomDatabase[indexOfObject + 1][j] = r[indexOfObject].get_guest_name();
 			break;
 		}
-			//guest ID
+				 //guest ID
 		case(9): {
+			cout << "This is case " << j << endl;
 			roomDatabase[indexOfObject + 1][j] = r[indexOfObject].get_guest_identification();
 			break;
 		}
 		}
-	
+
 	}
 	pushToRoomsDatabase(roomDatabase);
-	roomDatabasefile.close();
 }
 string getColumnInfo(string allColumns, int columnNumber) {
 	string currentCommand;
@@ -963,18 +973,21 @@ void initializeRoomDatabaseFromFile(string roomData[51][20]) {
 	string currentEntries;
 	Stack stack;
 	roomDatabasefile.open("RoomsDatabase.txt", ios::in);
-	getline(roomDatabasefile, currentEntries);
-	// set headings first
-	for (int cols = 1; cols < 20; cols++) {
-		roomData[0][cols] = getColumnInfo(currentEntries, cols);
-	}
-	for (int row = 1; row <= 50; row++) {
+	if (roomDatabasefile.is_open()) {
 		getline(roomDatabasefile, currentEntries);
-		for (int j = 1; j < 20; j++) {
-			if (j == 10) { break; }
-			roomData[row][j] = getColumnInfo(currentEntries, j);
+		// set headings first
+		for (int cols = 1; cols < 20; cols++) {
+			roomData[0][cols] = getColumnInfo(currentEntries, cols);
+		}
+		for (int row = 1; row <= 50; row++) {
+			getline(roomDatabasefile, currentEntries);
+			for (int j = 1; j < 20; j++) {
+				if (j == 10) { break; }
+				roomData[row][j] = getColumnInfo(currentEntries, j);
+			}
 		}
 	}
+	else { cout << "Filestream is closed\n"; }
 	roomDatabasefile.close();
 }
 void initializeFeaturesDatabaseFromFile(bool featuresData[50][16]) {
@@ -993,58 +1006,61 @@ void initializeRoomsArray(Rooms r[50], string roomData[51][20], bool featuresDat
 	roomDatabasefile.open("RoomsDatabase.txt", ios::in);
 	featuresDatabaseFile.open("FeaturesDatabase.txt", ios::in);
 	int counter = 0;
-	for (int j = 1; j <= 50; j++) {
-		for (int a = 1; a <= 9; a++) {
-			if (roomData[0][a] == "Availability") {
-				r[counter].set_availability(stringToBoolean(roomData[j][a][0]));
-			}
-			else if (roomData[0][a] == "Capacity") {
-				r[counter].set_capacity(stringToInt(roomData[j][a]));
-			}
-			else if (roomData[0][a] == "Number") {
-				r[counter].set_roomNumber(stringToInt(roomData[j][a]));
-			}
-			else if (roomData[0][a] == "Level") {
-				r[counter].set_roomlevel(stringToInt(roomData[j][a]));
-			}
-			else if (roomData[0][a] == "Room type") {
-				r[counter].set_room_type(roomData[j][a]);
-			}
-			else if (roomData[0][a] == "Rent days") {
-				r[counter].set_rent_days(stringToInt(roomData[j][a]));
-			}
-			else if (roomData[0][a] == "Room price") { 
-				r[counter].set_room_price(stringToInt(roomData[j][a]));
-			}
-			else if (roomData[0][a] == "Guest name") { 
-				r[counter].set_guest_name(roomData[j][a]);
-			}
-			else if (roomData[0][a] == "Guest ID") {
-				r[counter].set_guest_identification(roomData[j][a]);
-			}
-			else {
-				cout << "Couldn't find corresponding information\n";
-			}
-		}
-		counter++;
-	}
-	//to initialize features data
-	for (int i = 0; i < 50; i++) {
-		r[i].set_conveniences_names();
-		r[i].set_services_names();
-		for (int j = 0; j < 16; j++) {
-			for (int a = 0; a < 7; a++) {
-				if (a < 4) {
-					r[i].set_equipment_status(eq_name[a], featuresData[i][j]);
-					r[i].set_furniture_status(fur_name[a], featuresData[i][j]);
-					r[i].set_services_status(serv_name[a], featuresData[i][j]);
+	if (roomDatabasefile.is_open() && featuresDatabaseFile.is_open()) {
+		for (int j = 1; j <= 50; j++) {
+			for (int a = 1; a <= 9; a++) {
+				if (roomData[0][a] == "Availability") {
+					r[counter].set_availability(stringToBoolean(roomData[j][a][0]));
+				}
+				else if (roomData[0][a] == "Capacity") {
+					r[counter].set_capacity(stringToInt(roomData[j][a]));
+				}
+				else if (roomData[0][a] == "Number") {
+					r[counter].set_roomNumber(stringToInt(roomData[j][a]));
+				}
+				else if (roomData[0][a] == "Level") {
+					r[counter].set_roomlevel(stringToInt(roomData[j][a]));
+				}
+				else if (roomData[0][a] == "Room type") {
+					r[counter].set_room_type(roomData[j][a]);
+				}
+				else if (roomData[0][a] == "Rent days") {
+					r[counter].set_rent_days(stringToInt(roomData[j][a]));
+				}
+				else if (roomData[0][a] == "Room price") {
+					r[counter].set_room_price(stringToInt(roomData[j][a]));
+				}
+				else if (roomData[0][a] == "Guest name") {
+					r[counter].set_guest_name(roomData[j][a]);
+				}
+				else if (roomData[0][a] == "Guest ID") {
+					r[counter].set_guest_identification(roomData[j][a]);
 				}
 				else {
-					r[i].set_services_status(serv_name[a], featuresData[i][j]);
+					cout << "Couldn't find corresponding information\n";
+				}
+			}
+			counter++;
+		}
+		//to initialize features data
+		for (int i = 0; i < 50; i++) {
+			r[i].set_conveniences_names();
+			r[i].set_services_names();
+			for (int j = 0; j < 16; j++) {
+				for (int a = 0; a < 7; a++) {
+					if (a < 4) {
+						r[i].set_equipment_status(eq_name[a], featuresData[i][j]);
+						r[i].set_furniture_status(fur_name[a], featuresData[i][j]);
+						r[i].set_services_status(serv_name[a], featuresData[i][j]);
+					}
+					else {
+						r[i].set_services_status(serv_name[a], featuresData[i][j]);
+					}
 				}
 			}
 		}
 	}
+	else { cout << "Filestream is closed\n"; }
 	roomDatabasefile.close();
 	featuresDatabaseFile.close();
 }
