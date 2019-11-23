@@ -21,6 +21,7 @@ float fur_rent_price[4] = { 9.85, 16.60, 12.20, 45.50 };
 float serv_price[7] = { 13.45, 14.50, 11.5, 21.5, 35.50, 49.99, 15.85 };
 string roomsDatabase[51][20];
 bool featuresDatabase[50][16];
+int checkInTime[50];
 //variables
 
 /*
@@ -284,7 +285,7 @@ string booleanToString(bool entry);
 void pushToRoomsDatabase(string roomData[51][20]);
 void pushToFeaturesDatabase(bool featuresData[50][16]);
 void removeFromRoomsDatabase(Rooms r[50], string roomData[51][20], int indexOfObjects);
-
+void calculateDaysLeft(int indexOfObject, int timeStamps[50]);
 //functions declaration
 
 //functions
@@ -856,6 +857,7 @@ void GuestRegister(Rooms r[50], int NumberOfGuests, string RoomType) {
 				loging.open("Data.txt", ios::ate | ios::out);
 				loging << ctime(&rawtime) << ": " << full_name << " is registered in room number " << r[i].get_room_number() << " for " << stayDays << " days" << endl;
 				loging.close();
+				checkInTime[i] = time(&rawtime);
 				addToDatabase(r, roomsDatabase, i);
 				break;
 			}
@@ -1234,5 +1236,7 @@ void addToDatabase(Rooms r[50], bool featuresData[50][16], int indexOfObject) {
 	}
 	pushToFeaturesDatabase(featuresData);
 }
+void calculateDaysLeft(int indexOfObject, int timeStamps[50]) {
 
+}
 //functions

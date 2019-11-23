@@ -44,6 +44,11 @@ int main() {
 				}
 			}
 			cout << "What are you going to choose?\n\nYour choice: "; cin >> room_choice;
+			if (!cin) {
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cout << "Wrong input! Re-enter your choice: "; cin >> room_choice;
+			}
 			switch (room_choice) {
 					//book an ordinal room
 			case(1): {
